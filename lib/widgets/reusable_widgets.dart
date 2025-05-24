@@ -68,19 +68,41 @@ Container myButton(BuildContext context, Function onTap) {
   );
 }
 
-Card myCard(Text cardTitle, String imageName) {
+Card myCard(
+  Text cardTitle,
+  String imageName,
+  String firstEntry,
+  String secondEntry,
+  VoidCallback onTap
+) {
+  TextStyle entryStyle = const TextStyle(fontWeight: FontWeight.w200);
   return Card(
-    color: Colors.orange[300],
-    elevation: 1,
+    margin: EdgeInsets.only(left: 50),
+    color: Colors.grey[350],
+    elevation: 6,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-    child: SizedBox(
-      width: 180,
-      height: 150,
-      child: Column(
-        children: [
-          Image.asset(imageName, fit: BoxFit.fitWidth, width: 120),
-          cardTitle,
-        ],
+    child: InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(25), 
+      splashColor: Colors.green[50],
+      child: SizedBox(
+        width: 260,
+        height: 140,
+        child: Row(
+          children: [
+            Image.asset(imageName, fit: BoxFit.fitWidth, width: 100),
+            SizedBox(width: 10),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                cardTitle,
+                Text(firstEntry, style: entryStyle),
+                Text(secondEntry, style: entryStyle),
+              ],
+            ),
+          ],
+        ),
       ),
     ),
   );
