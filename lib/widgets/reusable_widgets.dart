@@ -16,10 +16,10 @@ TextField reusableTextField(
     decoration: InputDecoration(
       prefixIcon: icon != null ? Icon(icon, color: Colors.white) : null,
       labelText: text,
-      labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
+      labelStyle: TextStyle(color: Colors.white),
       filled: true,
       floatingLabelBehavior: FloatingLabelBehavior.never,
-      fillColor: Color(0x66DA6509),
+      fillColor: Colors.grey[400],
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30.0),
         borderSide: const BorderSide(width: 0, style: BorderStyle.none),
@@ -53,17 +53,21 @@ Image logoAuth(String imageName) {
 
 //........................................................................................
 
-Container myButton(BuildContext context, Function onTap) {
+Container myButton(BuildContext context, Function onTap, String buttonText) {
+  TextStyle buttonTextStyle = TextStyle(color: Colors.white);
   return Container(
     width: MediaQuery.of(context).size.width,
     height: 50.0,
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
     child: ElevatedButton(
-      style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFA6642D)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green,
+        elevation: 1,
+      ),
       onPressed: () {
         onTap();
       },
-      child: Text('LOG IN', style: TextStyle(color: Colors.white)),
+      child: Text(buttonText, style: buttonTextStyle),
     ),
   );
 }
@@ -73,7 +77,7 @@ Card myCard(
   String imageName,
   String firstEntry,
   String secondEntry,
-  VoidCallback onTap
+  VoidCallback onTap,
 ) {
   TextStyle entryStyle = const TextStyle(fontWeight: FontWeight.w200);
   return Card(
@@ -83,7 +87,7 @@ Card myCard(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
     child: InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(25), 
+      borderRadius: BorderRadius.circular(25),
       splashColor: Colors.green[50],
       child: SizedBox(
         width: 260,
@@ -105,5 +109,16 @@ Card myCard(
         ),
       ),
     ),
+  );
+}
+
+//........................................................................................
+ListTile nozzleTile(String nozzleProduct) {
+  TextStyle nozzleProductStyle = TextStyle(fontSize: 12);
+  return ListTile(
+    tileColor: Colors.grey,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    leading: Icon(Icons.water_drop_rounded),
+    title: Text(nozzleProduct, style: nozzleProductStyle),
   );
 }
