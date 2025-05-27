@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:petrol_app/modules/auth_module.dart';
 import 'package:petrol_app/pages/login_page.dart';
 
 void main() {
+  Hive.initFlutter().then((val){
+    final AuthModule authModule = AuthModule();
+    authModule.login().then((val) {
+      print(val.success);
+      print(val.message);
+    });
+  });
+  
   runApp(const MyApp());
 }
 

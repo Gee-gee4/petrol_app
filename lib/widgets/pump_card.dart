@@ -37,7 +37,7 @@ class PumpCard extends StatelessWidget {
               myButton(context, () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TransactionPage()),
+                  MaterialPageRoute(builder: (context) => TransactionPage(pumpId: pump.pumpId,)),
                 );
               }, 'Transactions'),
             ],

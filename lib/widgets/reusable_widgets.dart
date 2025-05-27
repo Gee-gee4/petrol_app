@@ -1,42 +1,53 @@
 import 'package:flutter/material.dart';
 
-TextField reusableTextField(
+Column reusableTextField(
   String text,
   IconData? icon,
   bool showText,
   TextEditingController controller, {
   Function()? toggleOnOff,
 }) {
-  return TextField(
-    controller: controller,
-    obscureText: !showText,
-    enableSuggestions: showText,
-    cursorColor: Colors.white,
-    style: TextStyle(color: Colors.white60),
-    decoration: InputDecoration(
-      prefixIcon: icon != null ? Icon(icon, color: Colors.white70) : null,
-      labelText: text,
-      labelStyle: TextStyle(color: Colors.white60),
-      filled: true,
-      floatingLabelBehavior: FloatingLabelBehavior.never,
-      fillColor: Colors.green[300],
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30.0),
-        borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(left: 15, bottom: 3),
+        child: Text('$text:'),
       ),
-      suffixIcon:
-          toggleOnOff == null
-              ? null
-              : IconButton(
-                onPressed: toggleOnOff,
-                icon: Icon(
-                  showText ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.green[900],
-                ),
-              ),
-    ),
-    keyboardType:
-        !showText ? TextInputType.visiblePassword : TextInputType.emailAddress,
+      TextField(
+        controller: controller,
+        obscureText: !showText,
+        enableSuggestions: showText,
+        cursorColor: Colors.white,
+        style: TextStyle(color: Colors.white60),
+        decoration: InputDecoration(
+          prefixIcon: icon != null ? Icon(icon, color: Colors.white70) : null,
+          // labelText: text,
+          // labelStyle: TextStyle(color: Colors.black),
+          filled: true,
+          // floatingLabelBehavior: FloatingLabelBehavior.never,
+          fillColor: Colors.green[300],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+          ),
+          suffixIcon:
+              toggleOnOff == null
+                  ? null
+                  : IconButton(
+                    onPressed: toggleOnOff,
+                    icon: Icon(
+                      showText ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.green[900],
+                    ),
+                  ),
+        ),
+        keyboardType:
+            !showText
+                ? TextInputType.visiblePassword
+                : TextInputType.emailAddress,
+      ),
+    ],
   );
 }
 
@@ -47,7 +58,7 @@ Image logoAuth(String imageName) {
     imageName,
     fit: BoxFit.fitWidth,
     width: 240,
-    
+
     //color: Colors.black,
   );
 }
@@ -128,4 +139,30 @@ ListTile nozzleTile(String nozzleProduct) {
 //........................................................................................
 Color hexToColor(String hex) {
   return Color(int.parse('0xFF$hex'));
+}
+
+//........................................................................................
+AlertDialog myDialogBox(BuildContext context) {
+  //, TIN,phone number , .=post
+  final TextEditingController taxPayerTextController = TextEditingController();
+  final TextEditingController tinTextController = TextEditingController();
+  final TextEditingController phonenoTextController = TextEditingController();
+
+  return AlertDialog(
+    title: Text('Post Sales'),
+    content: Column(
+      children: [
+        reusableTextField('Tax payer name', null, true, taxPayerTextController),
+        SizedBox(height: 10),
+        reusableTextField('TIN', null, true, tinTextController),
+        SizedBox(height: 10),
+        reusableTextField('Phone Number', null, true, phonenoTextController),
+        SizedBox(height: 20),
+        myButton(context, (){
+          //post logic
+           Navigator.pop(context); 
+        }, 'POST')
+      ],
+    ),
+  );
 }
