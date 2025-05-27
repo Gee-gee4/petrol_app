@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petrol_app/model/pump_model.dart';
 import 'package:petrol_app/widgets/pump_card.dart';
 
 class FuelPage extends StatelessWidget {
@@ -9,12 +10,9 @@ class FuelPage extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
       body: GridView.builder(
-        itemCount: 5,
+        itemCount: pumps.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 0.9,
@@ -22,7 +20,7 @@ class FuelPage extends StatelessWidget {
           // mainAxisSpacing: 5,
         ),
         itemBuilder: (context, index) {
-          return Padding(padding: const EdgeInsets.all(8.0), child: PumpCard());
+          return Padding(padding: const EdgeInsets.all(8.0), child: PumpCard(pump: pumps[index],));
         },
       ),
     );

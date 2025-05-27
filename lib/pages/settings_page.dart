@@ -77,15 +77,16 @@ class _SettingsPageState extends State<SettingsPage> {
                 stationIdKey,
                 _stationIdTextController.text,
               );
-              // //show a snackbar
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //   SnackBar(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              //     backgroundColor: Colors.green[400],
-              //     content: Text('Saved successfully!',),
-              //     duration: Duration(seconds: 2),
-              //     behavior: SnackBarBehavior.floating,
-              //   ),
-              // );
+
+              //show a snackbar
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  backgroundColor: Colors.green[400],
+                  content: Text('Saved successfully!',),
+                  duration: Duration(seconds: 2),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
             }, 'Save'),
           ],
         ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:petrol_app/model/pump_model.dart';
 import 'package:petrol_app/pages/transaction_page.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
 class PumpCard extends StatelessWidget {
-  const PumpCard({super.key});
+   final PumpModel pump;
+  const PumpCard({super.key, required this.pump});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class PumpCard extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Pump 1',
+                pump.pumpName,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
               ),
               SizedBox(height: 20),
