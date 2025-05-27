@@ -4,13 +4,13 @@ import 'package:petrol_app/pages/transaction_page.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
 class PumpCard extends StatelessWidget {
-   final PumpModel pump;
+  final PumpModel pump;
   const PumpCard({super.key, required this.pump});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey[350],
+      color: Colors.teal[50],
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       child: SizedBox(
@@ -37,7 +37,9 @@ class PumpCard extends StatelessWidget {
               myButton(context, () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TransactionPage(pumpId: pump.pumpId,)),
+                  MaterialPageRoute(
+                    builder: (context) => TransactionPage(pumpId: pump.pumpId),
+                  ),
                 );
               }, 'Transactions'),
             ],

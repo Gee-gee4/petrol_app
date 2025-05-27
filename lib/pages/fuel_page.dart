@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petrol_app/model/pump_model.dart';
 import 'package:petrol_app/modules/pumps_module.dart';
 import 'package:petrol_app/widgets/pump_card.dart';
+import 'package:petrol_app/widgets/reusable_widgets.dart';
 
 class FuelPage extends StatefulWidget {
   const FuelPage({super.key});
@@ -31,11 +32,11 @@ class _FuelPageState extends State<FuelPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.grey[100],
+      backgroundColor: hexToColor('d7eaee'),
       appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
       body: Column(
         children: [
-          if(isLoading) LinearProgressIndicator(),
+          if (isLoading) LinearProgressIndicator(color: hexToColor('005954'),backgroundColor:hexToColor('9fd8e1') ,),
           Expanded(
             child: GridView.builder(
               itemCount: pumps.length,
@@ -46,7 +47,10 @@ class _FuelPageState extends State<FuelPage> {
                 // mainAxisSpacing: 5,
               ),
               itemBuilder: (context, index) {
-                return Padding(padding: const EdgeInsets.all(8.0), child: PumpCard(pump: pumps[index]));
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: PumpCard(pump: pumps[index]),
+                );
               },
             ),
           ),

@@ -32,11 +32,15 @@ class _TransactionPageState extends State<TransactionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.grey[100],
+      backgroundColor: hexToColor('d7eaee'),
       appBar: AppBar(backgroundColor: Colors.transparent),
       body: Column(
         children: [
-          if (isFetching) LinearProgressIndicator(),
+          if (isFetching)
+            LinearProgressIndicator(
+              color: hexToColor('005954'),
+              backgroundColor: hexToColor('9fd8e1'),
+            ),
           Expanded(
             child: ListView.builder(
               itemCount: transactions.length,
@@ -50,15 +54,17 @@ class _TransactionPageState extends State<TransactionPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        color: Colors.grey[50],
+                        color: Colors.teal[50],
                         elevation: 2,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(25),
-                          splashColor: Colors.green[50],
+                          splashColor: Colors.teal[50],
                           onTap: () {
                             showDialog(
                               context: context,
-                              builder: (context) => myDialogBox(context)
+                              builder:
+                                  (context) =>
+                                      myDialogBox(context, transaction),
                             );
                           },
                           child: Container(
@@ -81,7 +87,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                     Text(
                                       transaction.nozzle,
                                       style: TextStyle(
-                                        fontSize: 30,
+                                        fontSize: 25,
                                         //fontWeight: FontWeight.bold,
                                       ),
                                     ),

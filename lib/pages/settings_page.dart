@@ -20,8 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   final TextEditingController _stationIdTextController =
       TextEditingController();
-      final TextEditingController _durationTextController =
-      TextEditingController();
+  final TextEditingController _durationTextController = TextEditingController();
 
   @override
   void initState() {
@@ -33,7 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
           sharedPreference.getString(stationNameKey) ?? '';
       _stationIdTextController.text =
           sharedPreference.getString(stationIdKey) ?? '';
-          _durationTextController.text =
+      _durationTextController.text =
           sharedPreference.getInt(durationKey)?.toString() ?? '';
       setState(() {});
     });
@@ -41,8 +40,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
+    return Scaffold(extendBody: true,
+      backgroundColor: hexToColor('d7eaee'),
+      appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -91,12 +91,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   durationKey,
                   int.tryParse(_durationTextController.text) ?? 0,
                 );
-        
+
                 //show a snackbar
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  SnackBar(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     backgroundColor: Colors.green[400],
-                    content: Text('Saved successfully!',),
+                    content: Text('Saved successfully!'),
                     duration: Duration(seconds: 2),
                     behavior: SnackBarBehavior.floating,
                   ),

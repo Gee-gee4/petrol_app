@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:petrol_app/model/transaction_model.dart';
+import 'package:petrol_app/modules/transaction_module.dart';
 
 Column reusableTextField(
   String text,
@@ -21,12 +23,12 @@ Column reusableTextField(
         cursorColor: Colors.white,
         style: TextStyle(color: Colors.white60),
         decoration: InputDecoration(
-          prefixIcon: icon != null ? Icon(icon, color: Colors.white70) : null,
+          prefixIcon: icon != null ? Icon(icon, color: Colors.teal[100]) : null,
           // labelText: text,
           // labelStyle: TextStyle(color: Colors.black),
           filled: true,
           // floatingLabelBehavior: FloatingLabelBehavior.never,
-          fillColor: Colors.green[300],
+          fillColor: Colors.teal[200],
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
             borderSide: const BorderSide(width: 0, style: BorderStyle.none),
@@ -38,7 +40,7 @@ Column reusableTextField(
                     onPressed: toggleOnOff,
                     icon: Icon(
                       showText ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.green[900],
+                      color: hexToColor('005954'),
                     ),
                   ),
         ),
@@ -74,7 +76,7 @@ Container myButton(BuildContext context, Function onTap, String buttonText) {
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: hexToColor('159947'),
+        backgroundColor: hexToColor('005954'),
         elevation: 1,
       ),
       onPressed: () {
@@ -95,19 +97,19 @@ Card myCard(
   TextStyle entryStyle = const TextStyle(fontWeight: FontWeight.w200);
   return Card(
     margin: EdgeInsets.only(left: 50),
-    color: Colors.grey[350],
+    color: Colors.teal[50],
     elevation: 6,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
     child: InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(25),
-      splashColor: Colors.green[50],
+      splashColor: Colors.teal[50],
       child: SizedBox(
         width: 260,
         height: 140,
         child: Row(
           children: [
-            Image.asset(imageName, fit: BoxFit.fitWidth, width: 100),
+            Image.asset(imageName, fit: BoxFit.cover, height: 90,width: 90),
             SizedBox(width: 10),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -142,15 +144,16 @@ Color hexToColor(String hex) {
 }
 
 //........................................................................................
-AlertDialog myDialogBox(BuildContext context) {
+AlertDialog myDialogBox(BuildContext context, TransactionModel transaction) {
   //, TIN,phone number , .=post
   final TextEditingController taxPayerTextController = TextEditingController();
   final TextEditingController tinTextController = TextEditingController();
   final TextEditingController phonenoTextController = TextEditingController();
 
-  return AlertDialog(
-    title: Text('Post Sales'),
+  return AlertDialog(backgroundColor:  hexToColor('d7eaee'),
+    title: Text('Post Sales:-'),
     content: Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         reusableTextField('Tax payer name', null, true, taxPayerTextController),
         SizedBox(height: 10),
@@ -158,10 +161,18 @@ AlertDialog myDialogBox(BuildContext context) {
         SizedBox(height: 10),
         reusableTextField('Phone Number', null, true, phonenoTextController),
         SizedBox(height: 20),
-        myButton(context, (){
+        myButton(context, () async {
+          final TransactionModule transactionModule = TransactionModule();
+
+          await transactionModule.postTransaction(
+            transactionModel: transaction,
+            taxPayerName: taxPayerTextController.text,
+            tin: tinTextController.text,
+            phoneNumber: phonenoTextController.text
+          );
           //post logic
-           Navigator.pop(context); 
-        }, 'POST')
+          if(context.mounted) Navigator.pop(context);
+        }, 'POST'),
       ],
     ),
   );

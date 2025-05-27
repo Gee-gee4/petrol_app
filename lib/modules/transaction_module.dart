@@ -12,7 +12,8 @@ class TransactionModule {
     List<TransactionModel> items = [];
 
     try {
-      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
       String stationId = sharedPreferences.getString(stationIdKey) ?? '';
       int duration = sharedPreferences.getInt(durationKey) ?? 1000;
 
@@ -49,17 +50,48 @@ class TransactionModule {
                     nozzle: transaction['nozzle'].toString(),
                     productName: transaction['productName'].toString(),
                     productId: transaction['productId']?.toString(),
-                    price: double.tryParse(transaction['price'].toString()) ?? 0,
-                    volume: double.tryParse(transaction['volume'].toString()) ?? 0,
-                    totalAmount: double.tryParse(transaction['amount'].toString()) ?? 0,
+                    price:
+                        double.tryParse(transaction['price'].toString()) ?? 0,
+                    volume:
+                        double.tryParse(transaction['volume'].toString()) ?? 0,
+                    totalAmount:
+                        double.tryParse(transaction['amount'].toString()) ?? 0,
                     dateTimeSold: transaction['dateTime'],
                   ),
                 )
                 .toList();
       }
+    } catch (_) {}
+    return items;
+  }
+
+  Future postTransaction({
+    required TransactionModel transactionModel,
+    String? taxPayerName,
+    String? tin,
+    String? phoneNumber,
+  }) async {
+    try {
+      String token = await _authModule.fetchToken();
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'authorization': 'Bearer $token',
+      };
+
+      final res = await http.put(
+        Uri.parse(postTransactionUrl(transactionModel.transactionId ?? '0')),
+        headers: headers,
+        body: json.encode({
+          "buyerName": taxPayerName,
+          "buyerTIN": tin,
+          "buyerPhone": phoneNumber,
+        }),
+      );
+
+      print(res.statusCode);
+      print(res.body);
     } catch (e) {
       print(e);
     }
-    return items;
   }
 }

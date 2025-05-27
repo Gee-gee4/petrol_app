@@ -21,6 +21,7 @@ const String signupUrl = '$baseTatsUrl/signup';
 const String userInfoUrl = '$baseTatsUrl/userInfo';
 
 String fetchPumpsUrl(String stationName) => '$baseTatsUrl/stations/pumps/$stationName';
+String postTransactionUrl(String transactionId) => '$baseTatsUrl/v3/transactions/$transactionId';
 String fetchTransactionsUrl({
   required String stationId,
   required String pumpId,

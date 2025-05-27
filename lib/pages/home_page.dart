@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:petrol_app/pages/fuel_page.dart';
 import 'package:petrol_app/pages/settings_page.dart';
@@ -38,11 +37,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final items = <Widget>[
-      Icon(Icons.home, size: 30),
-      Icon(Icons.receipt_long, size: 30),
-      Icon(Icons.person, size: 30),
-    ];
+    // final items = <Widget>[
+    //   Icon(Icons.home, size: 30),
+    //   Icon(Icons.receipt_long, size: 30),
+    //   Icon(Icons.person, size: 30),
+    // ];
     return Container(
       color: Colors.green[100],
       child: SafeArea(
@@ -50,7 +49,7 @@ class _HomePageState extends State<HomePage> {
         child: ClipRect(
           child: Scaffold(
             extendBody: true,
-            backgroundColor: Colors.grey[100],
+            backgroundColor: hexToColor('d7eaee'),
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -71,20 +70,20 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            bottomNavigationBar: Theme(
-              data: Theme.of(
-                context,
-              ).copyWith(iconTheme: IconThemeData(color: Colors.black87)),
-              child: CurvedNavigationBar(
-                color: Colors.green[100]!,
-                buttonBackgroundColor: Colors.green[100],
-                height: 50,
-                animationCurve: Curves.easeInOut,
-                animationDuration: Duration(milliseconds: 400),
-                backgroundColor: Colors.transparent,
-                items: items,
-              ),
-            ),
+            // bottomNavigationBar: Theme(
+            //   data: Theme.of(
+            //     context,
+            //   ).copyWith(iconTheme: IconThemeData(color: Colors.black87)),
+            //   child: CurvedNavigationBar(
+            //     color: Colors.green[100]!,
+            //     buttonBackgroundColor: Colors.green[100],
+            //     height: 50,
+            //     animationCurve: Curves.easeInOut,
+            //     animationDuration: Duration(milliseconds: 400),
+            //     backgroundColor: Colors.transparent,
+            //     items: items,
+            //   ),
+            // ),
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -99,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                         'FUEL',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      'assets/vectors/fuel.png',
+                      'assets/vectors/pump blue.png',
                       'Super',
                       'Diesel',
                       () => Navigator.push(
@@ -115,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                         'SERVICES',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      'assets/vectors/service (green).png',
+                      'assets/vectors/person blue.png',
                       'Carwash',
                       'Oil change',
                       () {},
@@ -128,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                         'PRODUCTS',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      'assets/vectors/productss.png',
+                      'assets/vectors/product blue.png',
                       'Lubes',
                       'Anti-freeze',
                       () {},
