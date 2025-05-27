@@ -52,7 +52,8 @@ class _HomePageState extends State<HomePage> {
             extendBody: true,
             backgroundColor: Colors.grey[100],
             appBar: AppBar(
-              //leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
               title: Text(
                 stationName,
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -114,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                         'SERVICES',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      'assets/vectors/service.png',
+                      'assets/vectors/service (green).png',
                       'Carwash',
                       'Oil change',
                       () {},

@@ -7,7 +7,12 @@ class FuelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      extendBody: true,
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: GridView.builder(
         itemCount: 5,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

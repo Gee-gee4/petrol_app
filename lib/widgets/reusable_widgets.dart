@@ -14,12 +14,12 @@ TextField reusableTextField(
     cursorColor: Colors.white,
     style: TextStyle(color: Colors.white60),
     decoration: InputDecoration(
-      prefixIcon: icon != null ? Icon(icon, color: Colors.white) : null,
+      prefixIcon: icon != null ? Icon(icon, color: Colors.white70) : null,
       labelText: text,
-      labelStyle: TextStyle(color: Colors.white),
+      labelStyle: TextStyle(color: Colors.white60),
       filled: true,
       floatingLabelBehavior: FloatingLabelBehavior.never,
-      fillColor: Colors.grey[400],
+      fillColor: Colors.green[300],
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30.0),
         borderSide: const BorderSide(width: 0, style: BorderStyle.none),
@@ -31,7 +31,7 @@ TextField reusableTextField(
                 onPressed: toggleOnOff,
                 icon: Icon(
                   showText ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.brown[600],
+                  color: Colors.green[900],
                 ),
               ),
     ),
@@ -47,6 +47,7 @@ Image logoAuth(String imageName) {
     imageName,
     fit: BoxFit.fitWidth,
     width: 240,
+    
     //color: Colors.black,
   );
 }
@@ -57,11 +58,12 @@ Container myButton(BuildContext context, Function onTap, String buttonText) {
   TextStyle buttonTextStyle = TextStyle(color: Colors.white);
   return Container(
     width: MediaQuery.of(context).size.width,
+    // width: 150,
     height: 50.0,
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
+        backgroundColor: hexToColor('159947'),
         elevation: 1,
       ),
       onPressed: () {
@@ -121,4 +123,9 @@ ListTile nozzleTile(String nozzleProduct) {
     leading: Icon(Icons.water_drop_rounded),
     title: Text(nozzleProduct, style: nozzleProductStyle),
   );
+}
+
+//........................................................................................
+Color hexToColor(String hex) {
+  return Color(int.parse('0xFF$hex'));
 }

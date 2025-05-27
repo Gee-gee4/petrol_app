@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isChecked = false;
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.orange[100]!, Colors.amber[300]!],
+            colors: [hexToColor('CCFFAA'), hexToColor('1E5B53')],
           ),
         ),
         child: SingleChildScrollView(
@@ -39,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                logoAuth('assets/vectors/location login orange (enhanced).png'),
+                logoAuth('assets/vectors/location logingreen (good).png'),
                 reusableTextField(
                   'Enter Name',
                   Icons.person,
@@ -59,13 +60,46 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                          fillColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ), // box background
+                          side: BorderSide(
+                            color: Colors.white,
+                          ), // ⬜ border color
+                          value: isChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked = value!;
+                            });
+                          },
+                        ),
+                        Text(
+                          'Remember me',
+                          style: TextStyle(fontSize: 13, color: Colors.white70),
+                        ),
+                      ],
+                    ),
+
+                    Text(
+                      'Forgot Pin?',
+                      style: TextStyle(fontSize: 13, color: Colors.white60),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40),
                 myButton(
                   context,
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomePage()),
                   ),
-                  'LOG IN'
+                  'LOG IN',
                 ),
               ],
             ),
