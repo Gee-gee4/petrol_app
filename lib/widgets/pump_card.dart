@@ -32,13 +32,14 @@ class PumpCard extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
               ),
               SizedBox(height: 20),
-
+      
               //Divider(thickness: 2),
               myButton(context, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TransactionPage(pumpId: pump.pumpId),
+                    builder:
+                        (context) => TransactionPage(pumpId: pump.pumpId),
                   ),
                 );
               }, 'Transactions'),

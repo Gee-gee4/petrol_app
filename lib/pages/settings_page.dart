@@ -40,72 +40,77 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(extendBody: true,
-      backgroundColor: hexToColor('d7eaee'),
-      appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Enter the entries:-',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              SizedBox(height: 20),
-              reusableTextField('URL', null, true, _urlTextController),
-              SizedBox(height: 10),
-              reusableTextField(
-                'Station Name',
-                null,
-                true,
-                _stationNameTextController,
-              ),
-              SizedBox(height: 10),
-              reusableTextField(
-                'Station Id',
-                null,
-                true,
-                _stationIdTextController,
-              ),
-              SizedBox(height: 10),
-              reusableTextField(
-                'Fetch Transactions (minutes)',
-                null,
-                true,
-                _durationTextController,
-              ),
-              SizedBox(height: 20),
-              myButton(context, () {
-                sharedPreference.setString(urlKey, _urlTextController.text);
-                sharedPreference.setString(
-                  stationNameKey,
-                  _stationNameTextController.text,
-                );
-                sharedPreference.setString(
-                  stationIdKey,
-                  _stationIdTextController.text,
-                );
-                sharedPreference.setInt(
-                  durationKey,
-                  int.tryParse(_durationTextController.text) ?? 0,
-                );
-
-                //show a snackbar
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+    return GestureDetector(
+      onTap: () {
+      FocusScope.of(context).unfocus(); },// Dismiss the keyboard
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: hexToColor('d7eaee'),
+        appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Enter the entries:-',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                SizedBox(height: 20),
+                reusableTextField('URL', null, true, _urlTextController),
+                SizedBox(height: 10),
+                reusableTextField(
+                  'Station Name',
+                  null,
+                  true,
+                  _stationNameTextController,
+                ),
+                SizedBox(height: 10),
+                reusableTextField(
+                  'Station Id',
+                  null,
+                  true,
+                  _stationIdTextController,
+                ),
+                SizedBox(height: 10),
+                reusableTextField(
+                  'Fetch Transactions (minutes)',
+                  null,
+                  true,
+                  _durationTextController,
+                ),
+                SizedBox(height: 20),
+                myButton(context, () {
+                  sharedPreference.setString(urlKey, _urlTextController.text);
+                  sharedPreference.setString(
+                    stationNameKey,
+                    _stationNameTextController.text,
+                  );
+                  sharedPreference.setString(
+                    stationIdKey,
+                    _stationIdTextController.text,
+                  );
+                  sharedPreference.setInt(
+                    durationKey,
+                    int.tryParse(_durationTextController.text) ?? 0,
+                  );
+      
+                  //show a snackbar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      backgroundColor: hexToColor('005954'),
+                      content: Text('Saved successfully!',),
+                      duration: Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
                     ),
-                    backgroundColor: Colors.green[400],
-                    content: Text('Saved successfully!'),
-                    duration: Duration(seconds: 2),
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-              }, 'Save'),
-            ],
+                  );
+                }, 'Save'),
+              ],
+            ),
           ),
         ),
       ),

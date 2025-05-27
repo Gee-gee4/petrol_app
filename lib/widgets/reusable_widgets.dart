@@ -20,8 +20,8 @@ Column reusableTextField(
         controller: controller,
         obscureText: !showText,
         enableSuggestions: showText,
-        cursorColor: Colors.white,
-        style: TextStyle(color: Colors.white60),
+        cursorColor: Colors.teal,
+        style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
           prefixIcon: icon != null ? Icon(icon, color: Colors.teal[100]) : null,
           // labelText: text,
@@ -109,7 +109,7 @@ Card myCard(
         height: 140,
         child: Row(
           children: [
-            Image.asset(imageName, fit: BoxFit.cover, height: 90,width: 90),
+            Image.asset(imageName, fit: BoxFit.cover, height: 90, width: 90),
             SizedBox(width: 10),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +150,8 @@ AlertDialog myDialogBox(BuildContext context, TransactionModel transaction) {
   final TextEditingController tinTextController = TextEditingController();
   final TextEditingController phonenoTextController = TextEditingController();
 
-  return AlertDialog(backgroundColor:  hexToColor('d7eaee'),
+  return AlertDialog(
+    backgroundColor: hexToColor('d7eaee'),
     title: Text('Post Sales:-'),
     content: Column(
       mainAxisSize: MainAxisSize.min,
@@ -161,19 +162,56 @@ AlertDialog myDialogBox(BuildContext context, TransactionModel transaction) {
         SizedBox(height: 10),
         reusableTextField('Phone Number', null, true, phonenoTextController),
         SizedBox(height: 20),
-        myButton(context, () async {
-          final TransactionModule transactionModule = TransactionModule();
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              dialogButtons(context, () async {
+                final TransactionModule transactionModule = TransactionModule();
 
-          await transactionModule.postTransaction(
-            transactionModel: transaction,
-            taxPayerName: taxPayerTextController.text,
-            tin: tinTextController.text,
-            phoneNumber: phonenoTextController.text
-          );
-          //post logic
-          if(context.mounted) Navigator.pop(context);
-        }, 'POST'),
+                await transactionModule.postTransaction(
+                  transactionModel: transaction,
+                  taxPayerName: taxPayerTextController.text,
+                  tin: tinTextController.text,
+                  phoneNumber: phonenoTextController.text,
+                );
+                //post logic
+                if (context.mounted) Navigator.pop(context);
+              }, 'POST'),
+              dialogButtons(context, () {
+                Navigator.pop(context);
+              }, 'CANCEL'),
+            ],
+          ),
+        ),
       ],
+    ),
+  );
+}
+
+//........................................................................................
+
+Container dialogButtons(
+  BuildContext context,
+  Function onTap,
+  String buttonText,
+) {
+  TextStyle buttonTextStyle = TextStyle(color: Colors.white);
+  return Container(
+    width: 120,
+    // width: 150,
+    height: 50.0,
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: hexToColor('005954'),
+        elevation: 1,
+      ),
+      onPressed: () {
+        onTap();
+      },
+      child: Text(buttonText, style: buttonTextStyle),
     ),
   );
 }

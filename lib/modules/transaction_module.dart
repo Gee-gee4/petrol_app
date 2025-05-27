@@ -1,5 +1,6 @@
-import 'dart:convert';
+// ignore_for_file: avoid_print
 
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:petrol_app/model/transaction_model.dart';
 import 'package:petrol_app/modules/auth_module.dart';
