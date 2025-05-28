@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petrol_app/model/transaction_model.dart';
 import 'package:petrol_app/modules/transaction_module.dart';
+import 'package:petrol_app/widgets/alert_box_trans.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
 class TransactionPage extends StatefulWidget {
@@ -62,9 +63,10 @@ class _TransactionPageState extends State<TransactionPage> {
                           onTap: () {
                             showDialog(
                               context: context,
+                              barrierDismissible: false,
                               builder:
                                   (context) =>
-                                      myDialogBox(context, transaction),
+                                      AlertBoxTrans(transaction: transaction),
                             );
                           },
                           child: Container(

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:petrol_app/model/transaction_model.dart';
-import 'package:petrol_app/modules/transaction_module.dart';
 
 Column reusableTextField(
   String text,
@@ -144,51 +142,7 @@ Color hexToColor(String hex) {
 }
 
 //........................................................................................
-AlertDialog myDialogBox(BuildContext context, TransactionModel transaction) {
-  //, TIN,phone number , .=post
-  final TextEditingController taxPayerTextController = TextEditingController();
-  final TextEditingController tinTextController = TextEditingController();
-  final TextEditingController phonenoTextController = TextEditingController();
 
-  return AlertDialog(
-    backgroundColor: hexToColor('d7eaee'),
-    title: Text('Post Sales:-'),
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        reusableTextField('Tax payer name', null, true, taxPayerTextController),
-        SizedBox(height: 10),
-        reusableTextField('TIN', null, true, tinTextController),
-        SizedBox(height: 10),
-        reusableTextField('Phone Number', null, true, phonenoTextController),
-        SizedBox(height: 20),
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              dialogButtons(context, () async {
-                final TransactionModule transactionModule = TransactionModule();
-
-                await transactionModule.postTransaction(
-                  transactionModel: transaction,
-                  taxPayerName: taxPayerTextController.text,
-                  tin: tinTextController.text,
-                  phoneNumber: phonenoTextController.text,
-                );
-                //post logic
-                if (context.mounted) Navigator.pop(context);
-              }, 'POST'),
-              dialogButtons(context, () {
-                Navigator.pop(context);
-              }, 'CANCEL'),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
 
 //........................................................................................
 
@@ -211,6 +165,30 @@ Container dialogButtons(
       onPressed: () {
         onTap();
       },
+      child: Text(buttonText, style: buttonTextStyle),
+    ),
+  );
+}
+//........................................................................................
+
+Container cancelButtons(
+  BuildContext context,
+  Function onTap,
+  String buttonText,
+) {
+  TextStyle buttonTextStyle = TextStyle(color: hexToColor('005954'));
+  return Container(
+    width: 120,
+    // width: 150,
+    height: 50.0,
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+    child: TextButton(
+      onPressed: () {
+        onTap();
+      },
+      style: TextButton.styleFrom(
+        //backgroundColor: hexToColor('005954'),
+      ),
       child: Text(buttonText, style: buttonTextStyle),
     ),
   );
