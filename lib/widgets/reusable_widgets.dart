@@ -94,7 +94,7 @@ Card myCard(
 ) {
   TextStyle entryStyle = const TextStyle(fontWeight: FontWeight.w200);
   return Card(
-    margin: EdgeInsets.only(left: 50),
+    // margin: EdgeInsets.only(left: 30),
     color: Colors.teal[50],
     elevation: 6,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
@@ -151,7 +151,7 @@ Container dialogButtons(
   Function onTap,
   String buttonText,
 ) {
-  TextStyle buttonTextStyle = TextStyle(color: Colors.white);
+  TextStyle buttonTextStyle = TextStyle(color: Colors.white,fontSize: 16);
   return Container(
     width: 120,
     // width: 150,
@@ -193,3 +193,29 @@ Container cancelButtons(
     ),
   );
 }
+//........................................................................................
+
+Container exitButtons(
+  BuildContext context,
+  Function onTap,
+  String buttonText,
+) {
+  TextStyle buttonTextStyle = TextStyle(color: Colors.white);
+  return Container(
+    width: 120,
+    // width: 150,
+    height: 50.0,
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: hexToColor('005954'),
+        elevation: 1,
+      ),
+      onPressed: () {
+        onTap();
+      },
+      child: Text(buttonText, style: buttonTextStyle),
+    ),
+  );
+}
+//........................................................................................

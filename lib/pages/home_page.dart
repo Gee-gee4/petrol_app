@@ -48,10 +48,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          stationName,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: Text(stationName, style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
           IconButton(
@@ -82,52 +79,47 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //Image.asset('assets/vectors/green_home.png'),
-              //Text('Welcome User,',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
-              SizedBox(height: 20),
-              myCard(
-                Text(
-                  'FUEL',
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                myCard(
+                  Text(
+                    'FUEL',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  'assets/vectors/pump blue.png',
+                  'Super',
+                  'Diesel',
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FuelPage()),
+                  ),
                 ),
-                'assets/vectors/pump blue.png',
-                'Super',
-                'Diesel',
-                () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FuelPage()),
+                SizedBox(height: 40),
+                myCard(
+                  Text(
+                    'SERVICES',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  'assets/vectors/person blue.png',
+                  'Carwash',
+                  'Oil change',
+                  () {},
                 ),
-              ),
-              SizedBox(height: 20),
-      
-              SizedBox(height: 20),
-              myCard(
-                Text(
-                  'SERVICES',
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),
+                SizedBox(height: 40),
+                myCard(
+                  Text(
+                    'PRODUCTS',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                  'assets/vectors/product blue.png',
+                  'Lubes',
+                  'Anti-freeze',
+                  () {},
                 ),
-                'assets/vectors/person blue.png',
-                'Carwash',
-                'Oil change',
-                () {},
-              ),
-              SizedBox(height: 20),
-      
-              SizedBox(height: 20),
-              myCard(
-                Text(
-                  'PRODUCTS',
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),
-                ),
-                'assets/vectors/product blue.png',
-                'Lubes',
-                'Anti-freeze',
-                () {},
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

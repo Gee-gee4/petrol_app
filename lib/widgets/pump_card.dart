@@ -9,41 +9,57 @@ class PumpCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.teal[50],
-      elevation: 6,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      child: SizedBox(
-        height: 100,
-        width: 50,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/vectors/pump cropped.png',
-                fit: BoxFit.fitWidth,
-                width: 48,
-                color: Colors.grey,
-              ),
-              SizedBox(height: 10),
-              Text(
-                pump.pumpName,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
-              ),
-              SizedBox(height: 20),
-      
-              //Divider(thickness: 2),
-              myButton(context, () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => TransactionPage(pumpId: pump.pumpId),
-                  ),
-                );
-              }, 'Transactions'),
-            ],
+    return InkWell(
+      borderRadius: BorderRadius.circular(25),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TransactionPage(pumpId: pump.pumpId),
+          ),
+        );
+      },
+      child: Card(
+        color: Colors.teal[50],
+        elevation: 6,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        child: SizedBox(
+          // height: 150,
+          width: 120,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Shrinks to fit children
+              children: [
+                Image.asset(
+                  'assets/vectors/pump cropped.png',
+                  fit: BoxFit.fitWidth,
+                  width: 48,
+                  color: Colors.grey,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  pump.pumpName,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+                ),
+                SizedBox(height: 20),
+
+                //Divider(thickness: 2),
+                SizedBox(
+                  height: 50,
+                  width: 140,
+                  child: myButton(context, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => TransactionPage(pumpId: pump.pumpId),
+                      ),
+                    );
+                  }, 'Transactions'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

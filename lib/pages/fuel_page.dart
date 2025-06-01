@@ -36,7 +36,11 @@ class _FuelPageState extends State<FuelPage> {
       appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
       body: Column(
         children: [
-          if (isLoading) LinearProgressIndicator(color: hexToColor('005954'),backgroundColor:hexToColor('9fd8e1') ,),
+          if (isLoading)
+            LinearProgressIndicator(
+              color: hexToColor('005954'),
+              backgroundColor: hexToColor('9fd8e1'),
+            ),
           Expanded(
             child: GridView.builder(
               itemCount: pumps.length,

@@ -6,22 +6,28 @@ const String durationKey = 'duration';
 const String consumerKey = 'com.cloudtats.dashboard';
 const String consumerSecret = 'GHj3UhLip501CDCa';
 
-const String baseTatsUrl = 'http://192.168.100.2:8888';
+// const String baseTatsUrl = 'http://192.168.100.2:8888';
 // const String baseTatsUrl = 'https://tats.phan-tec.com';
-// const String baseTatsUrl = 'http://etims.saharafcs.com';
+// const String baseTatsUrl = 'http://etims.saharafcs.com:8889';
 // const String baseTatsUrl = 'https://tats-test.phan-tec.com';
 
+String baseTatsUrl = 'http://etims.saharafcs.com:8889';
+
+
+
 // login
-const String authUrl = '$baseTatsUrl/auth/token';
+String authUrl = '$baseTatsUrl/auth/token';
 
 // signup
-const String signupUrl = '$baseTatsUrl/signup';
+String signupUrl = '$baseTatsUrl/signup';
 
 // userInfo
-const String userInfoUrl = '$baseTatsUrl/userInfo';
+String userInfoUrl = '$baseTatsUrl/userInfo';
 
-String fetchPumpsUrl(String stationName) => '$baseTatsUrl/stations/pumps/$stationName';
-String postTransactionUrl(String transactionId) => '$baseTatsUrl/v3/transactions/$transactionId';
+String fetchPumpsUrl(String stationName) =>
+    '$baseTatsUrl/stations/pumps/$stationName';
+String postTransactionUrl(String transactionId) =>
+    '$baseTatsUrl/v3/transactions/$transactionId';
 String fetchTransactionsUrl({
   required String stationId,
   required String pumpId,
