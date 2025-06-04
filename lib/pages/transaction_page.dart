@@ -34,7 +34,10 @@ class _TransactionPageState extends State<TransactionPage> {
     return Scaffold(
       extendBody: true,
       backgroundColor: hexToColor('d7eaee'),
-      appBar: AppBar(backgroundColor: Colors.transparent),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.filter_alt))],
+      ),
       body: Column(
         children: [
           if (isFetching)
