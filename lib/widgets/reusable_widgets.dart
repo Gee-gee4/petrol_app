@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Column reusableTextField(
   String text,
@@ -6,6 +7,7 @@ Column reusableTextField(
   bool showText,
   TextEditingController controller, {
   Function()? toggleOnOff,
+  TextInputType? keyboardType,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,13 +21,19 @@ Column reusableTextField(
         obscureText: !showText,
         enableSuggestions: showText,
         cursorColor: Colors.teal,
-        style: TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black),
+        keyboardType:
+            keyboardType ??
+            (!showText
+                ? TextInputType.visiblePassword
+                : TextInputType.emailAddress),
+        inputFormatters:
+            keyboardType == TextInputType.number
+                ? [FilteringTextInputFormatter.digitsOnly]
+                : null,
         decoration: InputDecoration(
           prefixIcon: icon != null ? Icon(icon, color: Colors.teal[100]) : null,
-          // labelText: text,
-          // labelStyle: TextStyle(color: Colors.black),
           filled: true,
-          // floatingLabelBehavior: FloatingLabelBehavior.never,
           fillColor: Colors.teal[200],
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
@@ -42,10 +50,6 @@ Column reusableTextField(
                     ),
                   ),
         ),
-        keyboardType:
-            !showText
-                ? TextInputType.visiblePassword
-                : TextInputType.emailAddress,
       ),
     ],
   );
@@ -143,7 +147,6 @@ Color hexToColor(String hex) {
 
 //........................................................................................
 
-
 //........................................................................................
 
 Container dialogButtons(
@@ -151,7 +154,7 @@ Container dialogButtons(
   Function onTap,
   String buttonText,
 ) {
-  TextStyle buttonTextStyle = TextStyle(color: Colors.white,fontSize: 16);
+  TextStyle buttonTextStyle = TextStyle(color: Colors.white, fontSize: 16);
   return Container(
     width: 120,
     // width: 150,
@@ -195,11 +198,7 @@ Container cancelButtons(
 }
 //........................................................................................
 
-Container exitButtons(
-  BuildContext context,
-  Function onTap,
-  String buttonText,
-) {
+Container exitButtons(BuildContext context, Function onTap, String buttonText) {
   TextStyle buttonTextStyle = TextStyle(color: Colors.white);
   return Container(
     width: 120,

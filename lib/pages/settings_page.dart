@@ -135,7 +135,8 @@ class _SettingsPageState extends State<SettingsPage> {
               'You have unsaved changes. Do you want to save them before exiting?',
             ),
             actions: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
                     onPressed:
@@ -292,6 +293,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     null,
                     true,
                     _durationTextController,
+                    keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 20),
                   myButton(context, _saveSettings, 'Save'),
