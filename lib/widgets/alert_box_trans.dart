@@ -17,9 +17,14 @@ class _AlertBoxTransState extends State<AlertBoxTrans> {
   final TextEditingController tinTextController = TextEditingController();
   final TextEditingController phonenoTextController = TextEditingController();
   PaymentMethod? selectedPaymentMethod;
+  bool isPosting = false;
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return isPosting ? 
+    Dialog(
+      child: LinearProgressIndicator(),
+    )
+    : AlertDialog(
       backgroundColor: hexToColor('d7eaee'),
       title: Text('Post Sales:-'),
       content: SingleChildScrollView(
@@ -34,7 +39,7 @@ class _AlertBoxTransState extends State<AlertBoxTrans> {
               taxPayerTextController,
             ),
             SizedBox(height: 10),
-            reusableTextField('TIN', null, true, tinTextController),
+            reusableTextField('Buyer\'s PIN', null, true, tinTextController),
             SizedBox(height: 10),
             reusableTextField(
               'Phone Number',
@@ -101,39 +106,73 @@ class _AlertBoxTransState extends State<AlertBoxTrans> {
 
                     final TransactionModule transactionModule =
                         TransactionModule();
-                    await transactionModule.postTransaction(
+                    setState(() {
+                      isPosting = true;
+                    });
+                    final res = await transactionModule.postTransaction(
                       transactionModel: widget.transaction,
                       taxPayerName: taxPayerTextController.text,
                       tin: tinTextController.text,
                       phoneNumber: phonenoTextController.text,
                     );
 
-                    if (mounted)
+                    if (parentContext.mounted) {
                       Navigator.pop(parentContext); // Pop the current dialog
+                    }
 
                     // Delay slightly to allow pop to complete
                     await Future.delayed(Duration(milliseconds: 100));
 
                     // Show next dialog from parent context
-                    if (mounted) {
+                    if (parentContext.mounted) {
                       showDialog(
                         context: parentContext,
                         barrierDismissible: false,
                         builder:
-                            (context) => AlertDialog(
-                              backgroundColor: hexToColor('d7eaee'),
-                              title: Text("Print Receipt:-"),
-                              content: Text(
-                                "Would you like to print the receipt?",
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text("Cancel",style: TextStyle(color: hexToColor('005954'),),),
+                            (context) {
+                              List<Widget> items = [];
+                              if(res != null){
+                                Map taxableAmount = Map.from(res['taxableAmount'] ?? {});
+                                items = [
+                                  Text('Company TIN: ${res["companyTIN"]}'),
+                                  Text('Company Name: ${res["companyName"]}'),
+                                  Divider(),
+                                  Text('Buyer\'s TIN: ${res["buyerTIN"]}'),
+                                  Text('Buyer\'s Name: ${res["buyerName"]}'),
+                                  Divider(),
+                                  Text('Tax Reciept No: ${res["taxRcptNo"]}'),
+                                  Text('Tax Sign: ${res["taxRcptSign"]}'),
+                                  Text('taxSdcId: ${res["taxSdcId"]}'),
+                                  Text('taxMrcNo: ${res["taxMrcNo"]}'),
+                                  for( var key in taxableAmount.keys)
+                                    Text('Taxable Amount (${key.toString().toUpperCase()}): ${taxableAmount[key]}'),
+
+                                ];
+                              }
+                                  
+                                return AlertDialog(
+                                backgroundColor: hexToColor('d7eaee'),
+                                title: Text("Print Receipt:-"),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ...items,
+                              
+                                    Divider(),
+                                    Text(
+                                      "Would you like to print the receipt?",
+                                    ),
+                                  ],
                                 ),
-                                dialogButtons(context, (){}, 'Print')
-                              ],
-                            ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text("Cancel",style: TextStyle(color: hexToColor('005954'),),),
+                                  ),
+                                  dialogButtons(context, (){}, 'Print')
+                                ],
+                              );
+                            },
                       );
                     }
                   }, 'POST'),

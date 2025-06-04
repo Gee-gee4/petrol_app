@@ -91,6 +91,9 @@ class TransactionModule {
 
       print(res.statusCode);
       print(res.body);
+      if(res.statusCode == 200){
+        return json.decode(res.body);
+      }
     } catch (e) {
       print(e);
     }

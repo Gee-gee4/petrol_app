@@ -37,12 +37,12 @@ class PumpCard extends StatelessWidget {
                   width: 48,
                   color: Colors.grey,
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 6),
                 Text(
                   pump.pumpName,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 15),
 
                 //Divider(thickness: 2),
                 SizedBox(
