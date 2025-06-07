@@ -1,7 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:petrol_app/model/transaction_model.dart';
+import 'package:petrol_app/modules/cart_module.dart';
 import 'package:petrol_app/modules/transaction_module.dart';
+import 'package:petrol_app/pages/cart_page.dart';
 import 'package:petrol_app/widgets/alert_box_trans.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
@@ -13,6 +17,8 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
+  final CartModule cartModuleBox = CartModule.instance();
+
   final TransactionModule _transactionModule = TransactionModule();
   List<TransactionModel> transactions = [];
   List<String> nozzles = [];
@@ -54,7 +60,15 @@ class _TransactionPageState extends State<TransactionPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart)),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()),
+              );
+            },
+            icon: Icon(Icons.shopping_cart),
+          ),
           if (nozzles.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(right: 12.0),
@@ -73,7 +87,7 @@ class _TransactionPageState extends State<TransactionPage> {
                     ),
                     buttonStyleData: ButtonStyleData(
                       decoration: BoxDecoration(
-                        color:  Colors.teal[50],
+                        color: Colors.teal[50],
                         borderRadius: BorderRadius.circular(16),
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -121,94 +135,121 @@ class _TransactionPageState extends State<TransactionPage> {
                       itemBuilder: (context, index) {
                         TransactionModel transaction =
                             filteredTransactions[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            color: Colors.teal[50],
-                            elevation: 2,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(25),
-                              splashColor: Colors.teal[50],
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder:
-                                      (context) => AlertBoxTrans(
-                                        transaction: transaction,
-                                      ),
-                                );
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(vertical: 5),
-                                height: 100,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
+                        return Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Column(
+                                color: Colors.teal[50],
+                                elevation: 2,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(25),
+                                  splashColor: Colors.teal[50],
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder:
+                                          (context) => AlertBoxTrans(
+                                            transaction: transaction,
+                                          ),
+                                    );
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(vertical: 5),
+                                    height: 100,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        Text(
-                                          transaction.productName,
-                                          style: TextStyle(fontSize: 18),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              transaction.productName,
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            Text(
+                                              transaction.nozzle,
+                                              style: TextStyle(fontSize: 25),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          transaction.nozzle,
-                                          style: TextStyle(fontSize: 25),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              transaction.dateTimeSold,
+                                              style: TextStyle(
+                                                fontSize: 17,
+                                                color: Colors.black54,
+                                              ),
+                                            ),
+                                            Text(
+                                              "Ksh ${transaction.price}",
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black87,
+                                              ),
+                                            ),
+                                            Text(
+                                              "Litres ${transaction.volume}",
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black87,
+                                              ),
+                                            ),
+                                            Text(
+                                              "Ksh ${transaction.totalAmount}",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.black87,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          transaction.dateTimeSold,
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Ksh ${transaction.price}",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black87,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Litres ${transaction.volume}",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black87,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Ksh ${transaction.totalAmount}",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.black87,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            Positioned(
+                              right: 16,
+                              bottom: 10,
+                              child: IconButton(
+                                onPressed: () {
+                                  // final CartItemModel cartItem = CartItemModel(
+                                  //   productId: transaction.productId ?? '',
+                                  //   productName: transaction.productName,
+                                  //   price: transaction.price,
+                                  //   quantity: transaction.volume,
+                                  //   totalAmount: transaction.totalAmount
+                                  // );
+                                  final wasAdded = cartModuleBox.addCartItem(
+                                    transaction.toCartItemModel(),
+                                  );
+                                  print(
+                                    "${transaction.productName} ${wasAdded ? 'added succefully' : 'Item Exist'}",
+                                  );
+                                // print('${cartModuleBox.cartItems}');
+                                },
+                                icon: Icon(Icons.add_shopping_cart),
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),

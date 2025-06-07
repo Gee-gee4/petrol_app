@@ -1,3 +1,5 @@
+import 'package:petrol_app/model/cart_item_model.dart';
+
 class TransactionModel {
   final String nozzle;
   final String productName;
@@ -18,15 +20,17 @@ class TransactionModel {
     this.productId,
     this.transactionId,
   });
+
+  CartItemModel toCartItemModel(){
+    return CartItemModel(
+      uniqueIdentifier: transactionId,
+      productId: productId ?? '',
+      productName: productName,
+      price: price,
+      quantity: volume,
+      totalAmount: totalAmount
+      );
+  }
 }
 
-List<TransactionModel> transactions = [
-  TransactionModel(
-    nozzle: '1',
-    productName: 'Super',
-    dateTimeSold: 'Date: 27/5/2025, Time:2.58 Pm',
-    price: 100,
-    volume: 3,
-    totalAmount: 300,
-  ),
-];
+
