@@ -33,4 +33,10 @@ class CartModule {
   void clearCart() {
     cartItems.clear();
   }
+
+  // calculate total amount in the cartpage
+  double get totalCartAmount {
+  return cartItems.fold(0, (sum, item) => sum + item.totalAmount);
+}
+
 }

@@ -211,7 +211,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                               ),
                                             ),
                                             Text(
-                                              "Ksh ${transaction.totalAmount}",
+                                              "Ksh ${transaction.totalAmount.toStringAsFixed(2)}",
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black87,
@@ -242,9 +242,9 @@ class _TransactionPageState extends State<TransactionPage> {
                                     transaction.toCartItemModel(),
                                   );
                                   print(
-                                    "${transaction.productName} ${wasAdded ? 'added succefully' : 'Item Exist'}",
+                                    "${transaction.productName} ${wasAdded ? 'added succefully' : 'Item Already Exists'}",
                                   );
-                                // print('${cartModuleBox.cartItems}');
+                                  // print('${cartModuleBox.cartItems}');
                                 },
                                 icon: Icon(Icons.add_shopping_cart),
                               ),
