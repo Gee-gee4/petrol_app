@@ -51,9 +51,11 @@ class _FuelPageState extends State<FuelPage> {
                 // mainAxisSpacing: 5,
               ),
               itemBuilder: (context, index) {
+                final pumpCurrent = pumps[index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: PumpCard(pump: pumps[index]),
+                  child: PumpCard(pump: pumpCurrent),
+                  // child: Text(pumpCurrent.pumpName),
                 );
               },
             ),
