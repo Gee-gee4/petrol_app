@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:petrol_app/model/cart_item_model.dart';
 import 'package:petrol_app/model/transaction_model.dart';
 import 'package:petrol_app/modules/auth_module.dart';
 import 'package:petrol_app/utils/configs.dart';
@@ -67,7 +68,7 @@ class TransactionModule {
   }
 
   Future postTransaction({
-    required TransactionModel transactionModel,
+    required List<CartItemModel> cartItemTrans,
     String? taxPayerName,
     String? tin,
     String? phoneNumber,
@@ -80,7 +81,7 @@ class TransactionModule {
       };
 
       final res = await http.put(
-        Uri.parse(postTransactionUrl(transactionModel.transactionId ?? '0')),
+        Uri.parse(postTransactionUrl('0')),
         headers: headers,
         body: json.encode({
           "buyerName": taxPayerName,

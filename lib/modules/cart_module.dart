@@ -1,6 +1,7 @@
+import 'package:flutter/widgets.dart';
 import 'package:petrol_app/model/cart_item_model.dart';
 
-class CartModule {
+class CartModule extends ChangeNotifier {
   CartModule._init(); //obect
 
   static CartModule? _cacheBox; //storage
@@ -18,6 +19,7 @@ class CartModule {
         cartItems.where((val) => val.uniqueId == item.uniqueId).isNotEmpty;
     if (!exist) {
       cartItems.add(item);
+      notifyListeners();
       return true;
     }
 
@@ -25,18 +27,27 @@ class CartModule {
   }
 
   // remove item
-  void removeCartItem(int index) {
-    cartItems.removeAt(index);
+  bool removeCartItem(int index) {
+    if (index >= 0 && index < cartItems.length) {
+      cartItems.removeAt(index);
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 
   // clear cart
-  void clearCart() {
-    cartItems.clear();
+  bool clearCart() {
+    if (cartItems.isNotEmpty) {
+      cartItems.clear();
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 
   // calculate total amount in the cartpage
   double get totalCartAmount {
-  return cartItems.fold(0, (sum, item) => sum + item.totalAmount);
-}
-
+    return cartItems.fold(0, (sum, item) => sum + item.totalAmount);
+  }
 }

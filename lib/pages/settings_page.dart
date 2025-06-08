@@ -152,16 +152,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     _saveSettings();
                     Navigator.of(context).pop(true);
                   }, 'Save & Exit'),
-                  // TextButton(
-                  //   onPressed: () {
-                  //     _saveSettings();
-                  //     Navigator.of(context).pop(true); // Exit after saving
-                  //   },
-                  //   child: Text(
-                  //     'Save and Exit',
-                  //     style: TextStyle(color: hexToColor('005954')),
-                  //   ),
-                  // ),
                 ],
               ),
             ],
@@ -297,6 +287,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const SizedBox(height: 20),
                   myButton(context, _saveSettings, 'Save'),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

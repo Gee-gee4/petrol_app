@@ -60,8 +60,9 @@ Column reusableTextField(
 Image logoAuth(String imageName) {
   return Image.asset(
     imageName,
-    fit: BoxFit.fitWidth,
-    width: 240,
+    fit: BoxFit.fitHeight,
+    height: 200,
+    // width: 200,
 
     //color: Colors.black,
   );
@@ -69,8 +70,12 @@ Image logoAuth(String imageName) {
 
 //........................................................................................
 
-Container myButton(BuildContext context, Function onTap, String buttonText) {
-  TextStyle buttonTextStyle = TextStyle(color: Colors.white);
+Container myButton(
+  BuildContext context,
+  Function onTap,
+  String buttonText, {
+  TextStyle buttonTextStyle = const TextStyle(color: Colors.white),
+}) {
   return Container(
     width: MediaQuery.of(context).size.width,
     // width: 150,

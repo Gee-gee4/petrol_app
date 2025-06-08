@@ -30,6 +30,7 @@ class _FuelPageState extends State<FuelPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool narrowPhone = MediaQuery.of(context).size.width < 350;
     return Scaffold(
       extendBody: true,
       backgroundColor: hexToColor('d7eaee'),
@@ -46,14 +47,14 @@ class _FuelPageState extends State<FuelPage> {
               itemCount: pumps.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.9,
+                childAspectRatio: narrowPhone ? .8 : .9,
                 // crossAxisSpacing: 0,
                 // mainAxisSpacing: 5,
               ),
               itemBuilder: (context, index) {
                 final pumpCurrent = pumps[index];
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(narrowPhone ? 0 : 8),
                   child: PumpCard(pump: pumpCurrent),
                   // child: Text(pumpCurrent.pumpName),
                 );

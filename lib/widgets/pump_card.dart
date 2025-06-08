@@ -9,6 +9,8 @@ class PumpCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool narrowPhone = MediaQuery.of(context).size.width < 350;
+
     return InkWell(
       borderRadius: BorderRadius.circular(25),
       onTap: () {
@@ -56,7 +58,11 @@ class PumpCard extends StatelessWidget {
                             (context) => TransactionPage(pumpId: pump.pumpId),
                       ),
                     );
-                  }, 'Transactions'),
+                  }, 'Transactions',
+                  buttonTextStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: narrowPhone ? 12.1 : null
+                  )),
                 ),
               ],
             ),

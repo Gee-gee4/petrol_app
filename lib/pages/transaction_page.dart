@@ -29,6 +29,11 @@ class _TransactionPageState extends State<TransactionPage> {
   void initState() {
     super.initState();
     fetchAndSetTransactions();
+    cartModuleBox.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   Future<void> fetchAndSetTransactions() async {
@@ -67,7 +72,13 @@ class _TransactionPageState extends State<TransactionPage> {
                 MaterialPageRoute(builder: (context) => CartPage()),
               );
             },
-            icon: Icon(Icons.shopping_cart),
+            icon: Badge(
+              offset: Offset(6, -6),
+              backgroundColor: hexToColor('005954'),
+              isLabelVisible: cartModuleBox.cartItems.isNotEmpty ,
+              label: Text(cartModuleBox.cartItems.length.toString()),
+              child: Icon(Icons.shopping_cart),
+            ),
           ),
           if (nozzles.isNotEmpty)
             Padding(
@@ -148,16 +159,26 @@ class _TransactionPageState extends State<TransactionPage> {
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(25),
                                   splashColor: Colors.teal[50],
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder:
-                                          (context) => AlertBoxTrans(
-                                            transaction: transaction,
-                                          ),
-                                    );
-                                  },
+                                  onTap:
+                                      cartModuleBox.cartItems.isNotEmpty
+                                          // add to cart
+                                          ? () {
+                                            _addToCart(transaction);
+                                          }
+                                          // post direct
+                                          : () {
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder:
+                                                  (context) => AlertBoxTrans(
+                                                    cartItemTrans: [
+                                                      transaction
+                                                          .toCartItemModel(),
+                                                    ],
+                                                  ),
+                                            );
+                                          },
                                   child: Container(
                                     margin: EdgeInsets.symmetric(vertical: 5),
                                     height: 100,
@@ -238,12 +259,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                   //   quantity: transaction.volume,
                                   //   totalAmount: transaction.totalAmount
                                   // );
-                                  final wasAdded = cartModuleBox.addCartItem(
-                                    transaction.toCartItemModel(),
-                                  );
-                                  print(
-                                    "${transaction.productName} ${wasAdded ? 'added succefully' : 'Item Already Exists'}",
-                                  );
+                                  _addToCart(transaction);
                                   // print('${cartModuleBox.cartItems}');
                                 },
                                 icon: Icon(Icons.add_shopping_cart),
@@ -255,6 +271,25 @@ class _TransactionPageState extends State<TransactionPage> {
                     ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _addToCart(TransactionModel transaction) {
+    final wasAdded = cartModuleBox.addCartItem(transaction.toCartItemModel());
+    // print(
+    //   "${transaction.productName} ${wasAdded ? 'added successfully' : 'Item Already Exists'}",
+    // );
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content:
+            wasAdded
+                ? Text('Product added successfully')
+                : Text('Already exists!'),
+        duration: Duration(milliseconds: 1000),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        backgroundColor: wasAdded ? hexToColor('005954') : Colors.grey,
       ),
     );
   }

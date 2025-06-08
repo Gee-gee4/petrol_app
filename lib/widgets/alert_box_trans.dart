@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:petrol_app/enum.dart';
-import 'package:petrol_app/model/transaction_model.dart';
+import 'package:petrol_app/model/cart_item_model.dart';
 import 'package:petrol_app/modules/transaction_module.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
 class AlertBoxTrans extends StatefulWidget {
-  final TransactionModel transaction;
-  const AlertBoxTrans({super.key, required this.transaction});
+  final List<CartItemModel> cartItemTrans;
+  const AlertBoxTrans({super.key, required this.cartItemTrans});
 
   @override
   State<AlertBoxTrans> createState() => _AlertBoxTransState();
@@ -100,13 +100,13 @@ class _AlertBoxTransState extends State<AlertBoxTrans> {
                     fillColor: Colors.teal[200],
                   ),
                 ),
-                SizedBox(height: 20),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      cancelButtons(context, () {
+                // SizedBox(height: 20),
+                
+              ],
+            ),
+          ),
+          actions: [
+            cancelButtons(context, () {
                         Navigator.pop(context);
                       }, 'CANCEL'),
                       dialogButtons(context, () async {
@@ -119,7 +119,7 @@ class _AlertBoxTransState extends State<AlertBoxTrans> {
                           isPosting = true;
                         });
                         final res = await transactionModule.postTransaction(
-                          transactionModel: widget.transaction,
+                          cartItemTrans: widget.cartItemTrans,
                           taxPayerName: taxPayerTextController.text,
                           tin: tinTextController.text,
                           phoneNumber: phonenoTextController.text,
@@ -194,12 +194,7 @@ class _AlertBoxTransState extends State<AlertBoxTrans> {
                           );
                         }
                       }, 'POST'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          ],
         );
   }
 }
