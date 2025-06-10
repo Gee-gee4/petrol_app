@@ -81,12 +81,22 @@ class TransactionModule {
       };
 
       final res = await http.put(
-        Uri.parse(postTransactionUrl('0')),
+        Uri.parse(postTransactionUrl()),
         headers: headers,
         body: json.encode({
           "buyerName": taxPayerName,
           "buyerTIN": tin,
           "buyerPhone": phoneNumber,
+          'items': cartItemTrans.map((cartItem){
+            return {
+              'transactionId': cartItem.uniqueId,
+              'code': cartItem.productId,
+              'name': cartItem.productName,
+              'quantity': cartItem.quantity,
+              'price': cartItem.price,
+              'amount': cartItem.totalAmount,
+            };
+          }).toList()
         }),
       );
 

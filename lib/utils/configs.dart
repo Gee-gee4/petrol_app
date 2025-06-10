@@ -26,8 +26,8 @@ String userInfoUrl = '$baseTatsUrl/userInfo';
 
 String fetchPumpsUrl(String stationName) =>
     '$baseTatsUrl/stations/pumps/$stationName';
-String postTransactionUrl(String transactionId) =>
-    '$baseTatsUrl/v3/transactions/$transactionId';
+String postTransactionUrl() =>
+    '$baseTatsUrl/v3/transactions';
 String fetchTransactionsUrl({
   required String stationId,
   required String pumpId,
