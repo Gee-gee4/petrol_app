@@ -100,7 +100,7 @@ class _CartPageState extends State<CartPage> {
                                         ],
                                       ),
                                       Text(
-                                        'Ksh${item.totalAmount.toStringAsFixed(2)}',
+                                        'Ksh ${item.totalAmount.toStringAsFixed(2)}',
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w500,

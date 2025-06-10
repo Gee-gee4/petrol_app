@@ -1,37 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:petrol_app/model/pump_model.dart';
-import 'package:petrol_app/modules/pumps_module.dart';
+import 'package:petrol_app/model/product_model.dart';
 import 'package:petrol_app/widgets/pump_card.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
-class FuelPage extends StatefulWidget {
-  const FuelPage({super.key});
+class ProductsPage extends StatefulWidget {
+  const ProductsPage({super.key});
 
   @override
-  State<FuelPage> createState() => _FuelPageState();
+  State<ProductsPage> createState() => _ProductsPageState();
 }
 
-class _FuelPageState extends State<FuelPage> {
-  final PumpsModule _pumpsModule = PumpsModule();
-  List<PumpModel> pumps = [];
+class _ProductsPageState extends State<ProductsPage> {
+  List<ProductModel> products = [];
   bool isLoading = false;
+
 
   @override
   void initState() {
     super.initState();
-    isLoading = true;
-    _pumpsModule.fetchPumps().then((ps) {
-      setState(() {
-        isLoading = false;
-        pumps = ps;
-      });
+    loadDummyProducts();
+  }
+
+  void loadDummyProducts() async {
+    setState(() {
+      isLoading = true;
+    });
+
+// Simulate fetch delay
+    await Future.delayed(Duration(milliseconds: 300));
+    setState(() {
+      products = productsEx;
+      isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // print('/////////////////////////////////////////////////');
-    // print(MediaQuery.of(context).size.width);
     bool narrowPhone = MediaQuery.of(context).size.width < 365;
     return Scaffold(
       extendBody: true,
@@ -46,24 +50,21 @@ class _FuelPageState extends State<FuelPage> {
             ),
           Expanded(
             child: GridView.builder(
-              itemCount: pumps.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: narrowPhone ? .8 : .9,
-                // crossAxisSpacing: 0,
-                // mainAxisSpacing: 5,
               ),
               itemBuilder: (context, index) {
-                final pumpCurrent = pumps[index];
+                final currentProduct = products[index];
                 return Padding(
                   padding: EdgeInsets.all(narrowPhone ? 0 : 8),
                   child: PumpCard(
+                    model: currentProduct,
+                    title: currentProduct.productName,
                     imagePath: 'assets/vectors/pump cropped.png',
-                    title: pumpCurrent.pumpName,
-                    model: pumpCurrent,
                   ),
                 );
               },
+              itemCount: products.length,
             ),
           ),
         ],

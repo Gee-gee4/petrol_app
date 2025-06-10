@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petrol_app/pages/fuel_page.dart';
+import 'package:petrol_app/pages/products_page.dart';
+import 'package:petrol_app/pages/services_page.dart';
 import 'package:petrol_app/pages/settings_page.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -105,7 +107,12 @@ class _HomePageState extends State<HomePage> {
                   'assets/vectors/person blue.png',
                   'Carwash',
                   'Oil change',
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ServicesPage()),
+                    );
+                  },
                 ),
                 SizedBox(height: 40),
                 myCard(
@@ -116,7 +123,12 @@ class _HomePageState extends State<HomePage> {
                   'assets/vectors/product blue.png',
                   'Lubes',
                   'Anti-freeze',
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProductsPage()),
+                    );
+                  },
                 ),
               ],
             ),

@@ -54,6 +54,7 @@ class _TransactionPageState extends State<TransactionPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     final filteredTransactions =
         (selectedNozzle == null || selectedNozzle == 'all')
             ? transactions

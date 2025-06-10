@@ -1,37 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:petrol_app/model/pump_model.dart';
-import 'package:petrol_app/modules/pumps_module.dart';
+import 'package:petrol_app/model/services_model.dart';
 import 'package:petrol_app/widgets/pump_card.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
-class FuelPage extends StatefulWidget {
-  const FuelPage({super.key});
+class ServicesPage extends StatefulWidget {
+  const ServicesPage({super.key});
 
   @override
-  State<FuelPage> createState() => _FuelPageState();
+  State<ServicesPage> createState() => _ServicesPageState();
 }
 
-class _FuelPageState extends State<FuelPage> {
-  final PumpsModule _pumpsModule = PumpsModule();
-  List<PumpModel> pumps = [];
+class _ServicesPageState extends State<ServicesPage> {
+  List<ServicesModel> services = [];
   bool isLoading = false;
 
-  @override
+@override
   void initState() {
     super.initState();
-    isLoading = true;
-    _pumpsModule.fetchPumps().then((ps) {
-      setState(() {
-        isLoading = false;
-        pumps = ps;
-      });
+    loadDummyServices();
+  }
+
+  void loadDummyServices() async {
+    setState(() {
+      isLoading = true;
+    });
+
+// Simulate fetch delay
+    await Future.delayed(Duration(milliseconds: 300));
+    setState(() {
+      services = servicesEx;
+      isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // print('/////////////////////////////////////////////////');
-    // print(MediaQuery.of(context).size.width);
     bool narrowPhone = MediaQuery.of(context).size.width < 365;
     return Scaffold(
       extendBody: true,
@@ -46,24 +49,21 @@ class _FuelPageState extends State<FuelPage> {
             ),
           Expanded(
             child: GridView.builder(
-              itemCount: pumps.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: narrowPhone ? .8 : .9,
-                // crossAxisSpacing: 0,
-                // mainAxisSpacing: 5,
               ),
               itemBuilder: (context, index) {
-                final pumpCurrent = pumps[index];
+                final currentService = services[index];
                 return Padding(
                   padding: EdgeInsets.all(narrowPhone ? 0 : 8),
                   child: PumpCard(
-                    imagePath: 'assets/vectors/pump cropped.png',
-                    title: pumpCurrent.pumpName,
-                    model: pumpCurrent,
+                    model: currentService,
+                    title: currentService.serviceName,
+                    imagePath: 'assets/vectors/person blue.png',
                   ),
                 );
               },
+              itemCount: services.length,
             ),
           ),
         ],

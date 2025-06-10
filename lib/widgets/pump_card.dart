@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:petrol_app/model/pump_model.dart';
 import 'package:petrol_app/pages/transaction_page.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
 class PumpCard extends StatelessWidget {
-  final PumpModel pump;
-  const PumpCard({super.key, required this.pump});
+  final dynamic model;
+  final String title;        // Custom name like 'Pump 1', 'Oil Change', etc.
+  final String imagePath;    // Path to asset like 'assets/icons/oil.png'
+
+  const PumpCard({
+    super.key,
+    required this.model,
+    required this.title,
+    required this.imagePath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,7 @@ class PumpCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TransactionPage(pumpId: pump.pumpId),
+            builder: (context) => TransactionPage(pumpId: model.pumpId),
           ),
         );
       },
@@ -26,43 +33,44 @@ class PumpCard extends StatelessWidget {
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         child: SizedBox(
-          // height: 150,
           width: 120,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisSize: MainAxisSize.min, // Shrinks to fit children
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
-                  'assets/vectors/pump cropped.png',
+                  imagePath,
                   fit: BoxFit.fitWidth,
                   width: 48,
                   color: Colors.grey,
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 Text(
-                  pump.pumpName,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+                  title,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+                  textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 15),
-
-                //Divider(thickness: 2),
+                const SizedBox(height: 15),
                 SizedBox(
                   height: 50,
                   width: 140,
-                  child: myButton(context, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) => TransactionPage(pumpId: pump.pumpId),
-                      ),
-                    );
-                  }, 'Transactions',
-                  buttonTextStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: narrowPhone ? 12.1 : null
-                  )),
+                  child: myButton(
+                    context,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TransactionPage(pumpId: model.pumpId),
+                        ),
+                      );
+                    },
+                    'Transactions',
+                    buttonTextStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: narrowPhone ? 12.1 : null,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -72,3 +80,4 @@ class PumpCard extends StatelessWidget {
     );
   }
 }
+
