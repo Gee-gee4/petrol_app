@@ -26,6 +26,23 @@ class CartModule extends ChangeNotifier {
     return false;
   }
 
+  // For ProductsPage – allow duplicates by increasing quantity
+  bool addOrUpdateCartItem(CartItemModel item) {
+    final index = cartItems.indexWhere((val) => val.uniqueId == item.uniqueId);
+
+    if (index != -1) {
+      // Update existing item
+      final existing = cartItems[index];
+      existing.quantity += item.quantity;
+      existing.totalAmount = existing.price * existing.quantity;
+    } else {
+      // Add new item
+      cartItems.add(item);
+    }
+    notifyListeners();
+    return true;
+  }
+
   // remove item
   bool removeCartItem(int index) {
     if (index >= 0 && index < cartItems.length) {

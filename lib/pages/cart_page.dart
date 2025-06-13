@@ -94,7 +94,7 @@ class _CartPageState extends State<CartPage> {
                                             style: TextStyle(fontSize: 16),
                                           ),
                                           Text(
-                                            'Litres ${item.quantity.toString()}',
+                                            'Quantity ${item.quantity.toString()}',
                                             style: TextStyle(fontSize: 16),
                                           ),
                                         ],

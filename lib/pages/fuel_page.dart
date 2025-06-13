@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petrol_app/model/pump_model.dart';
 import 'package:petrol_app/modules/pumps_module.dart';
+import 'package:petrol_app/pages/transaction_page.dart';
 import 'package:petrol_app/widgets/pump_card.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
@@ -36,7 +37,47 @@ class _FuelPageState extends State<FuelPage> {
     return Scaffold(
       extendBody: true,
       backgroundColor: hexToColor('d7eaee'),
-      appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: [
+          InkWell(
+            onTap:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TransactionPage(pumpId: 'all'),
+                  ),
+                ),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 6),
+              width: 170,
+              decoration: BoxDecoration(
+                color: Colors.teal[50],
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('All Transactions'),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => const TransactionPage(pumpId: 'all'),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.receipt_long),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           if (isLoading)
@@ -59,8 +100,30 @@ class _FuelPageState extends State<FuelPage> {
                   padding: EdgeInsets.all(narrowPhone ? 0 : 8),
                   child: PumpCard(
                     imagePath: 'assets/vectors/pump cropped.png',
+                    imageWidth: 48,
                     title: pumpCurrent.pumpName,
                     model: pumpCurrent,
+                    buttonName: 'Transactions',
+                    cardOnTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  TransactionPage(pumpId: pumpCurrent.pumpId),
+                        ),
+                      );
+                    },
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  TransactionPage(pumpId: pumpCurrent.pumpId),
+                        ),
+                      );
+                    },
                   ),
                 );
               },

@@ -9,6 +9,24 @@ import 'package:petrol_app/pages/cart_page.dart';
 import 'package:petrol_app/widgets/alert_box_trans.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
+IconButton cartIconButton(BuildContext context, CartModule cartModuleBox) {
+  return IconButton(
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CartPage()),
+      );
+    },
+    icon: Badge(
+      offset: Offset(6, -6),
+      backgroundColor: hexToColor('005954'),
+      isLabelVisible: cartModuleBox.cartItems.isNotEmpty,
+      label: Text(cartModuleBox.cartItems.length.toString()),
+      child: Icon(Icons.shopping_cart),
+    ),
+  );
+}
+
 class TransactionPage extends StatefulWidget {
   const TransactionPage({super.key, required this.pumpId});
   final String pumpId;
@@ -41,20 +59,25 @@ class _TransactionPageState extends State<TransactionPage> {
       isFetching = true;
     });
 
-    final items = await _transactionModule.fetchTransactions(widget.pumpId);
+    final items =
+        widget.pumpId == 'all'
+            ? await _transactionModule.fetchAllTransactions()
+            : await _transactionModule.fetchTransactions(widget.pumpId);
 
     final nozzleList = items.map((tx) => tx.nozzle).toSet().toList();
 
     setState(() {
-      transactions = items;
-      nozzles = nozzleList;
-      isFetching = false;
+      if (mounted) {
+        // Add this check
+        transactions = items;
+        nozzles = nozzleList;
+        isFetching = false;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    
     final filteredTransactions =
         (selectedNozzle == null || selectedNozzle == 'all')
             ? transactions
@@ -66,21 +89,7 @@ class _TransactionPageState extends State<TransactionPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CartPage()),
-              );
-            },
-            icon: Badge(
-              offset: Offset(6, -6),
-              backgroundColor: hexToColor('005954'),
-              isLabelVisible: cartModuleBox.cartItems.isNotEmpty ,
-              label: Text(cartModuleBox.cartItems.length.toString()),
-              child: Icon(Icons.shopping_cart),
-            ),
-          ),
+          cartIconButton(context, cartModuleBox),
           if (nozzles.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(right: 12.0),

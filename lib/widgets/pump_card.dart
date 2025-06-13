@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:petrol_app/pages/transaction_page.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
 class PumpCard extends StatelessWidget {
   final dynamic model;
-  final String title;        // Custom name like 'Pump 1', 'Oil Change', etc.
-  final String imagePath;    // Path to asset like 'assets/icons/oil.png'
-
+  final String title; // Custom name like 'Pump 1', 'Oil Change', etc.
+  final String imagePath; // Path to asset like 'assets/icons/oil.png'
+  final String buttonName;
+  final double imageWidth;
+  final Text? priceText;
+  final Function onPressed;
+  final VoidCallback cardOnTap;
   const PumpCard({
     super.key,
     required this.model,
     required this.title,
     required this.imagePath,
+    required this.buttonName,
+    required this.imageWidth,
+    required this.onPressed,
+    required this.cardOnTap,
+    this.priceText
   });
 
   @override
@@ -20,14 +28,7 @@ class PumpCard extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(25),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TransactionPage(pumpId: model.pumpId),
-          ),
-        );
-      },
+      onTap: cardOnTap,
       child: Card(
         color: Colors.teal[50],
         elevation: 6,
@@ -42,30 +43,27 @@ class PumpCard extends StatelessWidget {
                 Image.asset(
                   imagePath,
                   fit: BoxFit.fitWidth,
-                  width: 48,
+                  width: imageWidth,
                   color: Colors.grey,
                 ),
                 const SizedBox(height: 6),
                 Text(
                   title,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 19,
+                  ),
                   textAlign: TextAlign.center,
                 ),
+                if(priceText != null) priceText!,
                 const SizedBox(height: 15),
                 SizedBox(
                   height: 50,
                   width: 140,
                   child: myButton(
                     context,
-                    () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TransactionPage(pumpId: model.pumpId),
-                        ),
-                      );
-                    },
-                    'Transactions',
+                    onPressed,
+                    buttonName,
                     buttonTextStyle: TextStyle(
                       color: Colors.white,
                       fontSize: narrowPhone ? 12.1 : null,
@@ -80,4 +78,3 @@ class PumpCard extends StatelessWidget {
     );
   }
 }
-
