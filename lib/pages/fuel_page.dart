@@ -31,8 +31,6 @@ class _FuelPageState extends State<FuelPage> {
 
   @override
   Widget build(BuildContext context) {
-    // print('/////////////////////////////////////////////////');
-    // print(MediaQuery.of(context).size.width);
     bool narrowPhone = MediaQuery.of(context).size.width < 365;
     return Scaffold(
       extendBody: true,

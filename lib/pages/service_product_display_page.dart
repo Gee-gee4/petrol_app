@@ -73,12 +73,12 @@ class _ServProdDisplayPageState<T> extends State<ServiceProductDisplayPage<T>> {
   @override
   Widget build(BuildContext context) {
     bool narrowPhone = MediaQuery.of(context).size.width < 365;
-
     return Scaffold(
       extendBody: true,
       backgroundColor: hexToColor('d7eaee'),
       appBar: AppBar(
         title: Text(widget.appBarTitle),
+        centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
         actions: [cartIconButton(context, cartModule)],
@@ -95,7 +95,7 @@ class _ServProdDisplayPageState<T> extends State<ServiceProductDisplayPage<T>> {
               itemCount: items.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: narrowPhone ? .8 : .9,
+                childAspectRatio: narrowPhone ? .75 : .88,
               ),
               itemBuilder: (context, index) {
                 final item = items[index];
@@ -115,28 +115,11 @@ class _ServProdDisplayPageState<T> extends State<ServiceProductDisplayPage<T>> {
                       ),
                     ),
                     buttonName: 'Add to cart',
-                    cardOnTap: () {},
+                    cardOnTap: () {
+                      addVariableToCart(item);
+                    },
                     onPressed: () {
-                      final cartItem =
-                          widget.convertToCartItemModel != null
-                              ? widget.convertToCartItemModel!(item)
-                              : widget.convertToCartItem(item);
-                      final isAdded = cartModule.addOrUpdateCartItem(cartItem);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            isAdded ? 'Added to cart' : 'Error adding to cart!',
-                          ),
-                          duration: const Duration(milliseconds: 700),
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor:
-                              isAdded ? hexToColor('005954') : Colors.grey,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      );
+                      addVariableToCart(item);
                     },
                   ),
                 );
@@ -144,6 +127,24 @@ class _ServProdDisplayPageState<T> extends State<ServiceProductDisplayPage<T>> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void addVariableToCart(T item) {
+    final cartItem =
+        widget.convertToCartItemModel != null
+            ? widget.convertToCartItemModel!(item)
+            : widget.convertToCartItem(item);
+    final isAdded = cartModule.addOrUpdateCartItem(cartItem);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(isAdded ? 'Added to cart' : 'Error adding to cart!'),
+        duration: const Duration(milliseconds: 700),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: isAdded ? hexToColor('005954') : Colors.grey,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

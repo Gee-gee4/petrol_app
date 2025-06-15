@@ -94,13 +94,14 @@ class _CartPageState extends State<CartPage> {
                                             style: TextStyle(fontSize: 16),
                                           ),
                                           Text(
-                                            'Quantity ${item.quantity.toString()}',
+                                            'Qty ${item.quantity.toString()}',
                                             style: TextStyle(fontSize: 16),
                                           ),
                                         ],
                                       ),
                                       Text(
-                                        'Ksh ${item.totalAmount.toStringAsFixed(2)}',
+                                        item.totalAmount.toStringAsFixed(2),
+                                        overflow: TextOverflow.clip,
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w500,

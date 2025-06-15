@@ -19,20 +19,20 @@ class PumpCard extends StatelessWidget {
     required this.imageWidth,
     required this.onPressed,
     required this.cardOnTap,
-    this.priceText
+    this.priceText,
   });
 
   @override
   Widget build(BuildContext context) {
     bool narrowPhone = MediaQuery.of(context).size.width < 350;
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(25),
-      onTap: cardOnTap,
-      child: Card(
-        color: Colors.teal[50],
-        elevation: 6,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+    return Card(
+      color: Colors.teal[50],
+      elevation: 6,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(25),
+        onTap: cardOnTap,
         child: SizedBox(
           width: 120,
           child: Padding(
@@ -55,7 +55,7 @@ class PumpCard extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                if(priceText != null) priceText!,
+                if (priceText != null) priceText!,
                 const SizedBox(height: 15),
                 SizedBox(
                   height: 50,

@@ -287,9 +287,6 @@ class _TransactionPageState extends State<TransactionPage> {
 
   void _addToCart(TransactionModel transaction) {
     final wasAdded = cartModuleBox.addCartItem(transaction.toCartItemModel());
-    // print(
-    //   "${transaction.productName} ${wasAdded ? 'added successfully' : 'Item Already Exists'}",
-    // );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content:
