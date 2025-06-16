@@ -15,6 +15,8 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool narrowPhone = MediaQuery.of(context).size.width < 350;
+
     return Scaffold(
       backgroundColor: hexToColor('d7eaee'),
       appBar: AppBar(
@@ -81,7 +83,9 @@ class _CartPageState extends State<CartPage> {
                                     children: [
                                       Text(
                                         item.productName,
-                                        style: TextStyle(fontSize: 20),
+                                        style: TextStyle(
+                                          fontSize: narrowPhone ? 17 : 20,
+                                        ),
                                       ),
                                       Column(
                                         crossAxisAlignment:
@@ -91,19 +95,22 @@ class _CartPageState extends State<CartPage> {
                                         children: [
                                           Text(
                                             'Ksh ${item.price.toString()}',
-                                            style: TextStyle(fontSize: 16),
+                                            style: TextStyle(
+                                              fontSize: narrowPhone ? 15 : 16,
+                                            ),
                                           ),
                                           Text(
-                                            'Qty ${item.quantity.toString()}',
-                                            style: TextStyle(fontSize: 16),
+                                            'Quantity ${item.quantity.toString()}',
+                                            style: TextStyle(
+                                              fontSize: narrowPhone ? 15 : 16,
+                                            ),
                                           ),
                                         ],
                                       ),
                                       Text(
-                                        item.totalAmount.toStringAsFixed(2),
-                                        overflow: TextOverflow.clip,
+                                      narrowPhone ? item.totalAmount.toStringAsFixed(2) : 'Ksh ${item.totalAmount.toStringAsFixed(2)}',
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: narrowPhone ? 17 : 18,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
