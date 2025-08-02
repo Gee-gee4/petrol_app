@@ -24,7 +24,7 @@ String signupUrl = '$baseTatsUrl/signup';
 // userInfo
 String userInfoUrl = '$baseTatsUrl/userInfo';
 
-String fetchPumpsUrl(String stationName) =>
+String fetchPumpsUrl(String stationName) => 
     '$baseTatsUrl/stations/pumps/$stationName';
 String postTransactionUrl() =>
     '$baseTatsUrl/v3/transactions';
