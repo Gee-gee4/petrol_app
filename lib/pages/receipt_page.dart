@@ -91,7 +91,7 @@ class ReceiptPage extends StatelessWidget {
                         receiptStyle,
                       ),
                       _row(
-                        'Buyer\'s Tin:',
+                        'Buer\'s Tin:',
                         '${receiptData["buyerTIN"] ?? ''}',
                         receiptStyle,
                       ),
