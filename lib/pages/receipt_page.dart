@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:petrol_app/helper/printer_service.dart';
+import 'package:petrol_app/modules/cart_module.dart';
+import 'package:petrol_app/pages/home_page.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
 class ReceiptPage extends StatelessWidget {
@@ -12,9 +15,7 @@ class ReceiptPage extends StatelessWidget {
     final priceNum = (item['price'] ?? 0).toDouble();
     final qtyNum = (item['quantity'] ?? 0).toDouble();
     final discountNum = (item['discountAmount'] ?? 0).toDouble();
-    final taxType = ((item['taxType'] ?? '').toString().toUpperCase())
-        .padLeft(3)
-        .substring(0, 3);
+    final taxType = ((item['taxType'] ?? '').toString().toUpperCase()).padLeft(3).substring(0, 3);
 
     final totalAmt = (priceNum * qtyNum) - discountNum;
 
@@ -38,14 +39,11 @@ class ReceiptPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle receiptStyle = const TextStyle(
-      fontFamily: 'Courier',
-      fontSize: 14,
-    );
+    final TextStyle receiptStyle = const TextStyle(fontFamily: 'Courier', fontSize: 14);
 
-    final taxableAmount = Map<String, dynamic>.from(
-      receiptData['taxableAmount'] ?? {},
-    );
+    final taxableAmount = Map<String, dynamic>.from(receiptData['taxableAmount'] ?? {});
+
+    final printerService = PrinterServiceReceiptPage();
 
     return Scaffold(
       backgroundColor: hexToColor('d7eaee'),
@@ -54,6 +52,13 @@ class ReceiptPage extends StatelessWidget {
         title: const Text('Sale Receipt'),
         centerTitle: true,
         backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {
+            CartModule.instance().clearCart();
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
+          },
+          icon: Icon(Icons.home, color: hexToColor('005954')),
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -67,16 +72,13 @@ class ReceiptPage extends StatelessWidget {
                 // Header
                 Text(
                   receiptData["companyName"] ?? '',
-                  style: receiptStyle.copyWith(fontSize: 20, fontWeight: FontWeight.bold,),
+                  style: receiptStyle.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
-                Text(
-                  'TIN: ${receiptData["companyTIN"] ?? ''}',
-                  style: receiptStyle,
-                ),
+                Text('TIN: ${receiptData["companyTIN"] ?? ''}', style: receiptStyle),
                 const SizedBox(height: 8),
                 const Divider(),
-                Text('TAX INVOICE', style: receiptStyle.copyWith(fontSize: 16, fontWeight: FontWeight.bold,)),
+                Text('TAX INVOICE', style: receiptStyle.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
 
                 // Buyer Info
@@ -85,21 +87,9 @@ class ReceiptPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _row(
-                        'Buyer\'s Name:',
-                        '${receiptData["buyerName"] ?? ''}',
-                        receiptStyle,
-                      ),
-                      _row(
-                        'Buyer\'s Tin:',
-                        '${receiptData["buyerTIN"] ?? ''}',
-                        receiptStyle,
-                      ),
-                      _row(
-                        'Buyer\'s Phone:',
-                        '${receiptData["buyerPhone"] ?? ''}',
-                        receiptStyle,
-                      ),
+                      _row('Buyer\'s Name:', '${receiptData["buyerName"] ?? ''}', receiptStyle),
+                      _row('Buyer\'s Tin:', '${receiptData["buyerTIN"] ?? ''}', receiptStyle),
+                      _row('Buyer\'s Phone:', '${receiptData["buyerPhone"] ?? ''}', receiptStyle),
                     ],
                   ),
                 ),
@@ -112,37 +102,21 @@ class ReceiptPage extends StatelessWidget {
                     children: [
                       Text(
                         'Prod    Price  Qty  Total  Type',
-                        style: receiptStyle.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: receiptStyle.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        '-------------------------------',
-                        style: receiptStyle,
-                      ),
+                      Text('-------------------------------', style: receiptStyle),
                       const SizedBox(height: 4),
 
                       ...receiptData['items'].map<Widget>((item) {
-                        return Text(
-                          formatReceiptLine(item),
-                          style: receiptStyle,
-                        );
+                        return Text(formatReceiptLine(item), style: receiptStyle);
                       }).toList(),
 
-                      Text(
-                        '-------------------------------',
-                        style: receiptStyle,
-                      ),
+                      Text('-------------------------------', style: receiptStyle),
 
                       _row(
                         'Bill Total',
-                        calculateGrandTotal(
-                          receiptData['items'],
-                        ).toStringAsFixed(2),
-                        receiptStyle.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                        calculateGrandTotal(receiptData['items']).toStringAsFixed(2),
+                        receiptStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     ],
                   ),
@@ -161,27 +135,11 @@ class ReceiptPage extends StatelessWidget {
                 const Divider(),
 
                 // ======= Tax Details =======
-                _row(
-                  'Tax Receipt No:',
-                  '${receiptData["taxRcptNo"] ?? ''}',
-                  receiptStyle,
-                ),
-                _row(
-                  'Tax SDC ID:',
-                  '${receiptData["taxSdcId"] ?? ''}',
-                  receiptStyle,
-                ),
+                _row('Tax Receipt No:', '${receiptData["taxRcptNo"] ?? ''}', receiptStyle),
+                _row('Tax SDC ID:', '${receiptData["taxSdcId"] ?? ''}', receiptStyle),
 
-                _row(
-                  'Receipt Sign:',
-                  '${receiptData["taxRcptSign"] ?? ''}',
-                  receiptStyle,
-                ),
-                _row(
-                  'MRC No:',
-                  '${receiptData["taxMrcNo"] ?? ''}',
-                  receiptStyle,
-                ),
+                _row('Receipt Sign:', '${receiptData["taxRcptSign"] ?? ''}', receiptStyle),
+                _row('MRC No:', '${receiptData["taxMrcNo"] ?? ''}', receiptStyle),
 
                 const Divider(),
                 const Divider(),
@@ -195,12 +153,45 @@ class ReceiptPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: (){},
-          backgroundColor: hexToColor('005954'),
-          child: const Icon(Icons.print, color: Colors.white),
-        ),
+        onPressed: () async {
+          try {
+            // Call printReceipt with current receiptData
 
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            // ignore: unused_local_variable
+            final result = await printerService.printReceipt(receiptData: receiptData);
+
+            // Clear cart after successful print
+            CartModule.instance().clearCart();
+
+            // Optionally show success snackbar
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Printing successful'),
+                duration: const Duration(milliseconds: 700),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: hexToColor('005954'),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+            );
+
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
+          } catch (e) {
+            // Show error snackbar
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Print failed: $e'),
+                duration: const Duration(milliseconds: 700),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.grey,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+            );
+          }
+        },
+        backgroundColor: hexToColor('005954'),
+        child: const Icon(Icons.print, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -211,14 +202,7 @@ class ReceiptPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: style),
-          Expanded(
-            child: Text(
-              value,
-              style: style,
-              textAlign: TextAlign.right,
-              softWrap: true,
-            ),
-          ),
+          Expanded(child: Text(value, style: style, textAlign: TextAlign.right, softWrap: true)),
         ],
       ),
     );
