@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petrol_app/enum.dart';
 import 'package:petrol_app/model/cart_item_model.dart';
 import 'package:petrol_app/modules/transaction_module.dart';
+import 'package:petrol_app/pages/receipt_page.dart';
 import 'package:petrol_app/widgets/reusable_widgets.dart';
 
 class AlertBoxTrans extends StatefulWidget {
@@ -100,100 +101,43 @@ class _AlertBoxTransState extends State<AlertBoxTrans> {
                     fillColor: Colors.teal[200],
                   ),
                 ),
+
                 // SizedBox(height: 20),
-                
               ],
             ),
           ),
           actions: [
             cancelButtons(context, () {
-                        Navigator.pop(context);
-                      }, 'CANCEL'),
-                      dialogButtons(context, () async {
-                        // Get parent context before pop
-                        final parentContext = context;
+              Navigator.pop(context);
+            }, 'CANCEL'),
+            dialogButtons(context, () async {
+              final parentContext = context;
 
-                        final TransactionModule transactionModule =
-                            TransactionModule();
-                        setState(() {
-                          isPosting = true;
-                        });
-                        final res = await transactionModule.postTransaction(
-                          cartItemTrans: widget.cartItemTrans,
-                          taxPayerName: taxPayerTextController.text,
-                          tin: tinTextController.text,
-                          phoneNumber: phonenoTextController.text,
-                        );
+              final TransactionModule transactionModule = TransactionModule();
+              setState(() {
+                isPosting = true;
+              });
 
-                        if (parentContext.mounted) {
-                          Navigator.pop(
-                            parentContext,
-                          ); // Pop the current dialog
-                        }
+              final res = await transactionModule.postTransaction(
+                cartItemTrans: widget.cartItemTrans,
+                taxPayerName: taxPayerTextController.text,
+                tin: tinTextController.text,
+                phoneNumber: phonenoTextController.text,
+              );
 
-                        // Delay slightly to allow pop to complete
-                        await Future.delayed(Duration(milliseconds: 100));
+              if (!mounted) return;
 
-                        // Show next dialog from parent context
-                        if (parentContext.mounted) {
-                          showDialog(
-                            context: parentContext,
-                            barrierDismissible: false,
-                            builder: (context) {
-                              List<Widget> items = [];
-                              if (res != null) {
-                                Map taxableAmount = Map.from(
-                                  res['taxableAmount'] ?? {},
-                                );
-                                items = [
-                                  Text('Company TIN: ${res["companyTIN"]}'),
-                                  Text('Company Name: ${res["companyName"]}'),
-                                  Divider(),
-                                  Text('Buyer\'s TIN: ${res["buyerTIN"]}'),
-                                  Text('Buyer\'s Name: ${res["buyerName"]}'),
-                                  Divider(),
-                                  Text('Tax Reciept No: ${res["taxRcptNo"]}'),
-                                  Text('Tax Sign: ${res["taxRcptSign"]}'),
-                                  Text('taxSdcId: ${res["taxSdcId"]}'),
-                                  Text('taxMrcNo: ${res["taxMrcNo"]}'),
-                                  for (var key in taxableAmount.keys)
-                                    Text(
-                                      'Taxable Amount (${key.toString().toUpperCase()}): ${taxableAmount[key]}',
-                                    ),
-                                ];
-                              }
+              Navigator.pop(parentContext); // Close current dialog
 
-                              return AlertDialog(
-                                backgroundColor: hexToColor('d7eaee'),
-                                title: Text("Print Receipt:-"),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    ...items,
-
-                                    Divider(),
-                                    Text(
-                                      "Would you like to print the receipt?",
-                                    ),
-                                  ],
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text(
-                                      "Cancel",
-                                      style: TextStyle(
-                                        color: hexToColor('005954'),
-                                      ),
-                                    ),
-                                  ),
-                                  dialogButtons(context, () {}, 'Print'),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      }, 'POST'),
+              if (res != null && parentContext.mounted) {
+                Navigator.push(
+                  parentContext,
+                  MaterialPageRoute(
+                    builder: (context) => ReceiptPage(receiptData: res),
+                  ),
+                );
+              }
+            }, 'POST'),
           ],
         );
   }

@@ -6,10 +6,6 @@ const String durationKey = 'duration';
 const String consumerKey = 'com.cloudtats.dashboard';
 const String consumerSecret = 'GHj3UhLip501CDCa';
 
-// const String baseTatsUrl = 'http://192.168.100.2:8888';
-// const String baseTatsUrl = 'https://tats.phan-tec.com';
-// const String baseTatsUrl = 'http://etims.saharafcs.com:8889';
-// const String baseTatsUrl = 'https://tats-test.phan-tec.com';
 
 String baseTatsUrl = 'http://etims.saharafcs.com:8889';
 

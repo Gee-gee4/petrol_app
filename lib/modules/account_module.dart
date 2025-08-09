@@ -4,9 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:petrol_app/model/account_model.dart';
 import 'package:petrol_app/modules/auth_module.dart';
 import 'package:petrol_app/utils/configs.dart';
-// import 'package:pie_tats_app/src/models/account_model.dart';
-// import 'package:pie_tats_app/src/modules/auth_module.dart';
-// import 'package:pie_tats_app/src/utils/configs.dart';
 
 class AccountModule {
 

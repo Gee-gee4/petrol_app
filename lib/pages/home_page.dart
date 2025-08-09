@@ -64,20 +64,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      // bottomNavigationBar: Theme(
-      //   data: Theme.of(
-      //     context,
-      //   ).copyWith(iconTheme: IconThemeData(color: Colors.black87)),
-      //   child: CurvedNavigationBar(
-      //     color: Colors.green[100]!,
-      //     buttonBackgroundColor: Colors.green[100],
-      //     height: 50,
-      //     animationCurve: Curves.easeInOut,
-      //     animationDuration: Duration(milliseconds: 400),
-      //     backgroundColor: Colors.transparent,
-      //     items: items,
-      //   ),
-      // ),
+   
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
