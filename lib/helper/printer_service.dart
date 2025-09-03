@@ -54,10 +54,10 @@ class PrinterServiceReceiptPage {
       PrintData.text(
         receiptData["companyName"]?.toString() ?? 'Company',
         alignment: PrintAlignment.center,
-        fontSize: PrintedFontSize.size24,
+        fontSize: PrintedFontSize.size34,
       ),
     );
-    sheet.addElement(PrintData.space(line: 2));
+    sheet.addElement(PrintData.space(line: 3));
     sheet.addElement(
       PrintData.text(
         'TIN:  ${receiptData["companyTIN"]?.toString() ?? ''}',
@@ -91,13 +91,14 @@ class PrinterServiceReceiptPage {
     }
     
     sheet.addElement(PrintData.text('....................................................................'));
-    sheet.addElement(PrintData.space(line: 2));
+    sheet.addElement(PrintData.space(line: 3));
 
     sheet.addElement(
       PrintData.text('Bill Total:  ${calculateGrandTotal(items).toStringAsFixed(2)}', fontSize: PrintedFontSize.size24),
     );
     sheet.addElement(PrintData.space(line: 2));
     sheet.addElement(PrintData.text('--------------------------------------------------------------------'));
+    sheet.addElement(PrintData.space(line: 2));
 
     for (var key in taxableAmount.keys) {
       final val = taxableAmount[key];
@@ -109,6 +110,7 @@ class PrinterServiceReceiptPage {
     }
     sheet.addElement(PrintData.space(line: 2));
     sheet.addElement(PrintData.text('--------------------------------------------------------------------'));
+    sheet.addElement(PrintData.space(line: 3));
 
     addRow('Tax Receipt No:  ', receiptData["taxRcptNo"]?.toString() ?? '');
     sheet.addElement(PrintData.space(line: 2));
@@ -121,6 +123,7 @@ class PrinterServiceReceiptPage {
 
     sheet.addElement(PrintData.text('--------------------------------------------------------------------'));
     sheet.addElement(PrintData.text('--------------------------------------------------------------------'));
+    sheet.addElement(PrintData.space(line: 2));
 
     sheet.addElement(
       PrintData.text(
